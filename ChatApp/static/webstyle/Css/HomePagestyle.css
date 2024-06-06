@@ -1,0 +1,24 @@
+
+ .Intro-title{
+    font-size: 50px;
+    font-family: "Outfit";
+    font-weight: 500;
+    margin-top:60px;
+    color:rgb(126,58,242)
+}
+
+ .quotes{
+    font-size: 17px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+}
+
+.button-style{
+    margin-top:80px;
+
+}
+
+.button-style button{
+    margin:0px 20px 0px 20px;
+
+}
+
