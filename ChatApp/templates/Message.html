@@ -601,7 +601,7 @@
 
       var messageDiv = document.querySelector('.message');
 
-      if (sender != '{{user}}') { // assuming you have a variable `currentUser` to hold the current user's name
+      if (sender != '{{user}}') { 
         messageDiv.innerHTML += '<div class="receive"><p style="color: white; text-align:left;">' + message + '<h6 style = "font-size:10px;color:black;padding-top:8px;padding-bottom:0px;font-weight:100px;text-align:left;">-' + sender + '</h6></p></div>';
       } else {
         messageDiv.innerHTML += '<div class="send"><p style="color: white;">' + message + '</p></div>';
@@ -620,5 +620,4 @@
 
   </script>
 </body>
-
 </html>
