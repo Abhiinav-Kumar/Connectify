@@ -28,6 +28,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL ="ChatApp.UserDB"
+
+# things that happens when user authenticate
+AUTHENTICATION_BACKENDS = [
+        'django.contrib.auth.backends.AllowAllUsersModelBackend',
+        'ChatApp.backends.CaseInsensitiveModelBackend'
+]
+
 
 # Application definition
 

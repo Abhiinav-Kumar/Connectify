@@ -6,9 +6,12 @@ from django.contrib import messages
 def Home_page(request):
     return render(request,"Home.html")
 
-def Chat_Page(request):
-    return render(request,"Chat.html")
+def Chat_Page(request,*args,**kwargs):
+    context = {}
+    return render(request,"one_to_one/Chat.html", context ) 
 
+
+# room message view
 def Public_Room_page(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -37,12 +40,11 @@ def MessageView(request,room_name,username):
     }
     return render(request,"Message.html",context)
 
+#end room message view
+
 
 def Profile_Page(request):
-    user = request.session['Username']
-    # print(user)
-    data = UserDB.objects.get(Username=user)
-    return render(request,"Profile.html",{'data':data})
+    return render(request,"Profile.html",)
 
 def Sign_Up(request):
     return render(request,"SignUp.html")
@@ -78,9 +80,7 @@ def Login_user(request):
         user = request.POST.get('USERNAME')
         pwd = request.POST.get('PASSWORD')
 
-        if UserDB.objects.filter(Username=user,Password=pwd).exists():
-            request.session['Username'] = user
-            request.session['Password'] = pwd
+        if UserDB.objects.filter(Username=user).exists():
             return redirect(Chat_Page)
         else:
             messages.warning(request, 'Account not found')
