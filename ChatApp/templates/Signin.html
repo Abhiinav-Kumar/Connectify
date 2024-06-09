@@ -87,6 +87,20 @@
                   placeholder="***************" type="password" name="password" />
               </label>
 
+              {% for field in login_form %}
+				<p>
+				{% for error in field.errors %}
+				<p style="color: red">{{ error }}</p>
+				{% endfor %}
+				</p>
+				{% endfor %}
+				{% if login_form.non_field_errors %}
+				<div style="color: red">
+				<p>{{login_form.non_field_errors}}</p>
+				</div>
+
+				{% endif %}
+
               <button type="submit" style="margin-top:20px;"
                 class="block w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Login

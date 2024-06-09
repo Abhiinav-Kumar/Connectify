@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 
 from ChatApp.models import UserDB
+
 #registartion form
 class RegistrationForm(UserCreationForm):
 
