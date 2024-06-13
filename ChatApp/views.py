@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from ChatApp.models import Room,Message
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout 
+from django.contrib.auth import authenticate,login
 
 
 
@@ -70,6 +70,20 @@ def User_signup(request):
             user = User.objects.create_user(username=USERNAME,email=EMAIL,password=PASSWORD)
             user.save()
         return redirect(request,login_page)
+    
+#login views
+
+def user_login(request):
+    if request.method == "POST":
+        USERNAME = request.POST.get('username')
+        PASSWORD = request.POST.get('password')
+
+        user = authenticate(username=USERNAME,password=PASSWORD)
+        if user is not None:
+            login(request, user)
+            return redirect(request,Chat_Page)
+        else:
+            return redirect(request,Home_page)
 
 
 
