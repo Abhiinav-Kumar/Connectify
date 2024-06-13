@@ -44,7 +44,8 @@ def MessageView(request,room_name,username):
 
 #page views
 def Chat_Page(request,*args,**kwargs):
-    return render(request,"one_to_one/Chat.html", )
+    users = User.objects.exclude(username = request.session['Username'])
+    return render(request,"one_to_one/Chat.html", {'users':users} )
 
 def Sign_Up(request):
     return render(request,"SignUp.html")
