@@ -6,11 +6,13 @@ urlpatterns = [
     path('',views.Home_page,name='Home_page'),
     path('Chat_Page/',views.Chat_Page,name='Chat_Page'),
 
-    # User Registration
+    # User Registration login logout
     path('Sign_Up/',views.Sign_Up,name='Sign_Up'),
     path('login_page/',views.login_page,name='login_page'),
     path('User_signup/',views.User_signup,name='User_signup'),
     path('user_login/',views.user_login,name='user_login'),
+    path('logout_view/',views.logout_view,name='logout_view'),
+
 
     # Room urls
     path('Public_Room_page/',views.Public_Room_page,name='Public_Room_page'),

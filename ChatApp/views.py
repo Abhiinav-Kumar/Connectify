@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from ChatApp.models import Room,Message
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 
 
 
@@ -64,15 +64,17 @@ def User_signup(request):
         PASSWORD = request.POST.get('password1')
 
         if User.objects.filter(username=USERNAME).exists():
-            # Handle duplicate username (e.g., display error message)
-            return render(request, 'signup.html', {'messages': 'Username already exists'})
+            messages.warning(request,"Username already existed")
+            return render(request, 'signup.html')
+        elif User.objects.filter(email=EMAIL).exists():
+            messages.warning(request,"Email already Used")
+            return redirect(Sign_Up)
         else:
             user = User.objects.create_user(username=USERNAME,email=EMAIL,password=PASSWORD)
             user.save()
-        return redirect(request,login_page)
+        return redirect(login_page)
     
 #login views
-
 def user_login(request):
     if request.method == "POST":
         USERNAME = request.POST.get('username')
@@ -81,12 +83,13 @@ def user_login(request):
         user = authenticate(username=USERNAME,password=PASSWORD)
         if user is not None:
             login(request, user)
-            return redirect(request,Chat_Page)
+            messages.success(request,"Successfully logged in")
+            request.session['Username']=USERNAME
+            request.session['Password']=PASSWORD
+            return redirect(Chat_Page)
         else:
-            return redirect(request,Home_page)
-
-
-
+            return redirect(Home_page)
+        
 
 
 def logout_view(request):

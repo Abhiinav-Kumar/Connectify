@@ -88,7 +88,7 @@
 
             <li class="relative px-6 py-3">
               <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="{% url 'Profile_Page' %}">
+                href="#">
                 <i class="fa-solid fa-user"></i>
                 <span class="ml-4">Profile</span>
               </a>
@@ -154,7 +154,7 @@
           </li>
           <li class="relative px-6 py-3">
             <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-              href="{% url 'Profile_Page'  %}">
+              href="#">
               <i class="fa-solid fa-user"></i>
               <span class="ml-4">Profile</span>
             </a>
@@ -309,7 +309,10 @@
           <div style="height:520px; text-align:center"
             class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
             
-            <h1 style="text-transform: capitalize;" class="Intro-title font-semibold">Welcome, Connectify
+            {% if request.session.Username %}
+            <h1 style="text-transform: capitalize;" class="Intro-title font-semibold">Welcome, {{request.session.Username}}</h1>
+            
+            {% endif %}
               
             <h4 class="quotes dark:text-gray-200">'Building Bridges through Conversation.'</h4>
 
@@ -337,7 +340,6 @@
   </section>
 
 
-  
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 {% if messages %}
