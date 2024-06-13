@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='userdb',
             name='Profile_image',
-            field=models.ImageField(blank=True, default=ChatApp.models.get_dafault_profile_image, null=True, upload_to=ChatApp.models.get_profile_image_filepath),
+            field=models.ImageField(blank=True,null=True),
         ),
         migrations.AddField(
             model_name='userdb',

@@ -2,6 +2,9 @@ from django.shortcuts import render,redirect
 from ChatApp.models import Room,Message
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout 
+
+
 
 # Create your views here.
 
@@ -60,39 +63,17 @@ def User_signup(request):
         USERNAME = request.POST.get('username')
         PASSWORD = request.POST.get('password1')
 
-        user = User.objects.create_user(username=USERNAME,email=EMAIL,password=PASSWORD)
-        user.save()
-        return redirect(request,)
-
-
-
-
-def login_view(request,*args,**kwargs):
-    context = {}
-
-    user = request.user
-    if user.is_authenticated:
-        messages.success(request,"Successfully signed")
-        return redirect(Chat_Page)
-    
-    destination = get_redirect_if_exists(request)
-    if request.POST:
-        form = AccountAuthenticationForm(request.POST)
-        if form.is_valid():
-            email = request.POST['email']
-            password = request.POST['password']
-            user = authenticate(email=email,password=password)
-            if user:
-                login(request,user)
-                destination = get_redirect_if_exists(request)
-                if destination:
-                    return redirect(destination)
-                messages.success(request,"Successfully login")
-                return redirect(Chat_Page)
+        if User.objects.filter(username=USERNAME).exists():
+            # Handle duplicate username (e.g., display error message)
+            return render(request, 'signup.html', {'messages': 'Username already exists'})
         else:
-            context['login_form'] = form
+            user = User.objects.create_user(username=USERNAME,email=EMAIL,password=PASSWORD)
+            user.save()
+        return redirect(request,login_page)
 
-    return render(request,"Signin.html")
+
+
+
 
 def logout_view(request):
     logout(request)
@@ -103,8 +84,5 @@ def logout_view(request):
 def Profile_Page(request):
     return render(request,"Profile.html",)
 
-def account_view(request, *args ,**kwargs):
 
-    context - {}
-    
 
