@@ -62,7 +62,7 @@
         <div class="flex items-center justify-center p-6 sm:p-8 md:w-1/2">
           <div class="w-full">
 
-            <form method="post"  name="signup_form"
+            <form method="post" action="{% url 'User_signup' %}"  name="signup_form"
               onsubmit="return signup_function()">
               {% csrf_token %}
 
@@ -94,18 +94,6 @@
                   placeholder="***************" type="password" name="password2" />
               </label>
 
-              {% for field in registration_form %}
-              <p>
-                {% for error in field.errors %}
-              <p style="color: red">{{ error }}</p>
-              {% endfor %}
-              </p>
-              {% endfor %}
-              {% if registration_form.non_field_errors %}
-              <div style="color: red">
-                <p>{{registration_form.non_field_errors}}</p>
-                {% endif %}
-
                 <button type="submit" style="margin-top:20px;"
                   class="block w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                   Create account
@@ -132,7 +120,7 @@
 
             <p class="mt-4">
               <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                href="#">
+                href="{% url 'login_page' %}">
                 Already have an account? Login
               </a>
             </p>
@@ -153,9 +141,8 @@
   <!--    <script src="{% static 'webstyle/assets/js/charts-lines.js' %}" defer></script>-->
   <!--    <script src="{% static 'webstyle/assets/js/charts-pie.js' %}" defer></script>-->
 
-  <!-- <script>
 
-
+  <script>
     function signup_function() {
       email = document.signup_form.EMAIL.value;
       user = document.signup_form.USERNAME.value;
@@ -187,7 +174,7 @@
         return false
       }
     }
-  </script> -->
+  </script>
 
 
 </body>
