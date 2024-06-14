@@ -2,6 +2,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from ChatApp.models import *
+from asgiref.sync import async_to_sync
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -41,3 +42,37 @@ class ChatConsumer(AsyncWebsocketConsumer):
         if not Message.objects.filter(message=data['message']).exists():
             new_message = Message(room=get_room_by_name, sender=data['sender'], message=data['message'])
             new_message.save()
+
+
+
+
+#private
+class PersonalChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        print("Connecting........")
+        await self.accept()
+        await self.channel_layer.group_add(f"mychat_app{self.scope['user']}",self.channel_name)
+
+    async def receive(self,text_data):
+        text_data = json.dumps(text_data)
+        await self.channel_layer.group_send(
+            f"mychat_app{text_data['user']}",
+            {
+                "type":"send.msg",
+                "msg" : text_data['msg']
+            }
+        )
+    
+    async def send_msg(self,event):
+        print(event)
+        await self.send(event['msg'])
+
+    async def disconnect(self):
+       pass
+
+
+
+        # my_id = self.scope['user'].id
+        # other_user_id = self.scope['url_route']['kwargs']['id']
+        # if int(my_id)> int(other_user_id):
+        #     self.room_name = f'{my_id}'

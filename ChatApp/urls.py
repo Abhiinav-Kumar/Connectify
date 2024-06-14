@@ -19,7 +19,8 @@ urlpatterns = [
     path('MessageView/<str:room_name>/<str:username>',views.MessageView,name='MessageView'),
 
 
-    # path('Profile_Page/',views.Profile_Page,name='Profile_Page'),
+    path('Profile_Page/',views.Profile_Page,name='Profile_Page'),
+    
     # path('Sign_Up/',views.Sign_Up,name='Sign_Up'),
     # path('forgot_password/',views.forgot_password,name='forgot_password'),
     # path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),

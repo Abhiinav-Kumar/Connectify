@@ -305,7 +305,9 @@
             </div>
             <div class="profile-info">
              
-              <h1 class="font-semibold text-gray-700 dark:text-gray-200 username ">Username</h1>
+              {% if request.session.Username %}
+              <h1 class="font-semibold text-gray-700 dark:text-gray-200 username ">{{request.session.Username}}</h1>
+              {% endif %}
             
               <h3 class="font-semibold text-gray-700 dark:text-gray-200 email">example@gmail.com</h3>
 
