@@ -308,17 +308,20 @@
 
           <!-- users div  -->
           <div class="Usersdiv min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+            <p style="margin-bottom: 18px;" class="text-sm text-gray-600 dark:text-gray-400">
+              Peoples are in Connectify
+            </p>
             
             {% for x in users %}
-            <div style="margin-bottom: 8px;" class="flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-              <div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-                </svg>
+            <div class="flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab">
+              <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                <img class="object-cover w-full h-full rounded-full" 
+                src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy">
+                <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
               </div>
               <div>
                 
-                <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                <p style="text-transform: capitalize;" class=" font-semibold text-gray-700 dark:text-gray-200">
                   {{x.username}}
                 </p>
               </div>
@@ -389,6 +392,15 @@
         text-align:center;
         width: 980px;
         min-width: 500px;
+      }
+
+      .users_tab{
+        margin-bottom: 8px;
+        height: 48px;
+      }
+      .users_tab:hover{
+        background-color:#f0f0f0dc;
+
       }
 
   </style>
