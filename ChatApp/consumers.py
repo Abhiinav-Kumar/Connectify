@@ -45,7 +45,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
 
-#private
+#private chat settings
 class PersonalChatConsumer(AsyncWebsocketConsumer):
         async def connect(self):
             my_id = self.scope['user'].id
