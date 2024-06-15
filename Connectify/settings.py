@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Connectify.wsgi.application'
+# WSGI_APPLICATION = 'Connectify.wsgi.application'
 ASGI_APPLICATION = 'Connectify.asgi.application'
 
 CHANNEL_LAYERS = {
@@ -82,10 +82,10 @@ CHANNEL_LAYERS = {
 
 #one to one chat setting
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
         },
     },
 }

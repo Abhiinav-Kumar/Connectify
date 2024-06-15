@@ -45,34 +45,51 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
 
-
 #private
 class PersonalChatConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        print("Connecting........")
-        await self.accept()
-        await self.channel_layer.group_add(f"mychat_app{self.scope['user']}",self.channel_name)
+        async def connect(self):
+            my_id = self.scope['user'].id
+            other_user_id = self.scope['url_route']['kwargs']['id']
+            if int(my_id) > int(other_user_id):
+                self.room_name = f'{my_id}-{other_user_id}'
+            else:
+                self.room_name = f'{other_user_id}-{my_id}'
 
-    async def receive(self,text_data):
-        text_data = json.dumps(text_data)
-        await self.channel_layer.group_send(
-            f"mychat_app{text_data['user']}",
-            {
-                "type":"send.msg",
-                "msg" : text_data['msg']
-            }
+            self.room_group_name = 'chat_%s' % self.room_name
+
+            await self.channel_layer.group_add(
+                self.room_group_name,
+                self.channel_name,
+            )
+
+            await self.accept()
+
+        async def disconnect(self, code):
+            self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_layer
         )
-    
-    async def send_msg(self,event):
-        print(event)
-        await self.send(event['msg'])
+            
+        async def receive(self, text_data=None, bytes_data=None):
+            data = json.loads(text_data)
+            message = data['message']
+            username = data['username']
 
-    async def disconnect(self):
-       pass
+            await self.channel_layer.group_send(
+                self.room_group_name,
+                {
+                    'type':'chat_message',
+                    'message':message,
+                    'username':username
+                }
+            )
+        
+        async def chat_message(self,event):
+            message = event['message']
+            username = event['username']
 
-
-
-        # my_id = self.scope['user'].id
-        # other_user_id = self.scope['url_route']['kwargs']['id']
-        # if int(my_id)> int(other_user_id):
-        #     self.room_name = f'{my_id}'
+            await self.send(text_data=json.dumps({
+                'message':message,
+                'username':username
+            }))
+            

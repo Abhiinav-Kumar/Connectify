@@ -62,7 +62,7 @@
               <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                 aria-hidden="true"></span>
               <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
-                href="{% url 'Chat_Page' %}">
+                href="{% url 'Chat_Page'  %}">
 
                 <i class="fa-regular fa-comment"></i>
                 <span class="ml-4">Chats</span>
@@ -313,19 +313,23 @@
             </p>
             
             {% for x in users %}
-            <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
-              <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img class="object-cover w-full h-full rounded-full" 
-                src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy">
-                <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <div>
+            <a href="{% url 'One_message' username=x.username %}">
+              <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
+                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                  <img class="object-cover w-full h-full rounded-full" 
+                  src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy">
+                  <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                </div>
+                <div>
+                  
+                  
+                    <p style="text-transform: capitalize;" class=" font-semibold text-gray-700 dark:text-gray-200">
+                      {{x.username}}
+                    </p>
                 
-                <p style="text-transform: capitalize;" class=" font-semibold text-gray-700 dark:text-gray-200">
-                  {{x.username}}
-                </p>
+                </div>
               </div>
-            </div>
+            </a>
             {% endfor %}
 
        
@@ -335,69 +339,25 @@
           </div>
           <!-- users div  -->
 
-          <!-- messages div  -->
+          {% block content %}
 
-          <div style="background-color: #f4f5fb; overflow-y: scroll; display: none;" class=" messagesdiv bg-white rounded-lg shadow-xs dark:bg-gray-800">
-            
-            
-            
-            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-              <div class="selected-user">
-                  <span class="name">Emily Russell</span>
-              </div>
-              <div class="chat-container">
-                  <ul class="chat-box chatContainerScroll">
-                      <li class="chat-left">
-                          <div class="chat-avatar">
-                              <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                              <div class="chat-name">Russell</div>
-                          </div>
-                          <div class="chat-text">Hello, I'm Russell.
-                              <br>How can I help you today?</div>
-                          <div class="chat-hour">08:55</div>
-                      </li>
-                      <li class="chat-right">
-                          <div class="chat-hour">08:56 </span></div>
-                          <div class="chat-text">Hi, Russell
-                              <br> I need more information about Developer Plan.</div>
-                          <div class="chat-avatar">
-                              <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                              <div class="chat-name">Sam</div>
-                          </div>
-                      </li>
-                      <li class="chat-left">
-                          <div class="chat-avatar">
-                              <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin">
-                              <div class="chat-name">Russell</div>
-                          </div>
-                          <div class="chat-text">Are we meeting today?
-                              <br>Project has been already finished and I have results to show you.</div>
-                          <div class="chat-hour">08:57</div>
-                      </li>
-                      <li class="chat-right">
-                          <div class="chat-hour">08:59 </div>
-                          <div class="chat-text">Well I am not sure.
-                              <br>I have results to show you.</div>
-                          <div class="chat-avatar">
-                              <img src="https://www.bootdey.com/img/Content/avatar/avatar5.png" alt="Retail Admin">
-                              <div class="chat-name">Joyse</div>
-                          </div>
-                      </li>
-                  </ul>
+          <!-- welcome div  -->
 
-                  <div class="form-group mt-3 mb-0">
-                    <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Type Message here.."></textarea>
-                    <button type="submit"
-                    class="submit send-btn px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                    <i class="fa-solid fa-paper-plane"></i>
-                  </button>
-                  </div>
-              </div>
-          </div>
+          <div class=" bg-white rounded-lg shadow-xs dark:bg-gray-800 welcomediv">
+          
+              {% if request.session.Username %}
+              <h1 style= "text-transform: capitalize;" class="Intro-title font-semibold">Welcome, {{request.session.Username}}</h1>
+              <h4 class="quotes dark:text-gray-200">'Building Bridges through Conversation.'</h4>
+
+               {% endif %}
+          
+            
       </div>
           </div>
 
-           <!-- messages div  -->
+           <!-- welcome div  -->
+
+           {% endblock %}
 
           
         </div>
@@ -431,20 +391,24 @@
 
       .Usersdiv{
         min-height:600px;
+        max-height: 600px;
         text-align:left;
         width: 250px;
         min-width:200px;
         margin-left:-30px; 
+        overflow-y: scroll;
 
       }
 
-      .messagesdiv{
-        min-height:600px; 
+       .welcomediv{
+        max-height:600px; 
         text-align:center;
         width: 980px;
         min-width: 500px;
+        
       }
 
+     
       .users_tab{
         margin-bottom: 8px;
         height: 48px;
@@ -633,49 +597,6 @@ ul {
     padding: 1rem;
 }
   </style>
-
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<script>
-  
-$(document).ready(function(){
-  $(".users").click(function(){
-    $(".messagesdiv").show(0.1);
-  });
-});
-
-</script>
-
-
-
-
-
-
-
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-{% if messages %}
-{% for i in messages %}
-{% if i.tags == 'warning' %}
-<script>
-    swal('{{i}}','','warning')
-</script>
-{% elif i.tags == 'error' %}
-<script>
-    swal('{{i}}','','error')
-</script>
-{% elif i.tags == 'info' %}
-<script>
-    swal('{{i}}','','info')
-</script>
-{% else %}
-<script>
-    swal('{{i}}','','success')
-</script>
-{% endif %}
-{% endfor %}
-{% endif %}
 
 </body>
 </html>

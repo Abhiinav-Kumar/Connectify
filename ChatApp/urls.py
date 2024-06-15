@@ -6,6 +6,8 @@ urlpatterns = [
     path('',views.Home_page,name='Home_page'),
     path('Chat_Page/',views.Chat_Page,name='Chat_Page'),
 
+    path('<str:username>',views.One_message,name='One_message'),
+
     # User Registration login logout
     path('Sign_Up/',views.Sign_Up,name='Sign_Up'),
     path('login_page/',views.login_page,name='login_page'),
