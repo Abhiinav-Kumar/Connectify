@@ -13,36 +13,39 @@
         <div class="selected-user">
             <span style="text-transform: capitalize;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} {{frnd.id}}</span>
         </div>
-        <div class="chat-container messagesdiv">
-            <table class="table">
-                <tbody id='chat-body'>
+        <div class="chat-container messagesdiv" id='chat-body'>
+
                     {% for message in messages %}
                     {% if message.sender == request.frnd.username %}
-                    <tr>
-                        <td>
-                            <p class="bg-success p-2 mt-2 mr-5 shadow-sm text-white float-right rounded">
-                                {{message.message}}
-                            </p>
-                        </td>
-                        <td>
-                            <p><small class="p-1 shadow-sm">{{message.timestamp|time:'H:i'}}</small></p>
-                        </td>
-                    </tr>
+
+                        <div class="row message-body">
+                            <!-- <div class=" message-main-sender"> -->
+                              <div class="sender">
+                                <div class="message-text">
+                                    {{message.message}} receiver
+                                </div>
+                                <span class="message-time pull-right">
+                                    {{message.timestamp|time:'H:i'}}
+                                </span>
+                              </div>
+                            <!-- </div> -->
+                          </div>
                     {% else %}
-                    <tr>
-                        <td>
-                            <p class="bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">
-                                {{message.message}}
-                            </p>
-                        </td>
-                        <td>
-                            <p><small class="p-1 shadow-sm">{{message.timestamp|time:'H:i'}}</small></p>
-                        </td>
-                    </tr>
+                        <div class="row message-body">
+                            <!-- <div class=" message-main-receiver"> -->
+                              <div class="receiver">
+                                <div class="message-text">
+                                    {{message.message}} receiver
+                                </div>
+                                <span class="message-time pull-right">
+                                    {{message.timestamp|time:'H:i'}}
+                                </span>
+                              </div>
+                            <!-- </div> -->
+                          </div>
                     {% endif %}
                     {% endfor %}
-                </tbody>
-            </table>
+               
         </div>
         <div class="form">
             <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
@@ -57,14 +60,74 @@
     </div>
 
 <style>
+
+.message-container {
+    display: flex;
+    justify-content: flex-end; /* Align children to the right */
+    width: 100%; /* Ensure the container spans the full width */
+}
+
+.message-time {
+  font-size: 12px;
+  color: #9a9a9a;
+  margin-right: 0px;
+  
+}
+
+.time-right{
+    margin-left: auto;
+    margin-right: 2px;
+    align-self: flex-end;
+}
+
+.receiver {
+    width: auto ;
+    max-width: 360px;
+    padding: 4px 10px 7px ;
+    border-radius: 10px 10px 10px 0;
+    background: #ffffff;
+    font-size: 13px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    word-wrap: break-word;
+    display: inline-block;
+    font-weight: 200;
+    margin-top: 8px;
+    
+}
+
+.sender {
+    width: auto;
+    max-width: 360px;
+    background: #dcf8c6;
+    border-radius: 10px 10px 0 10px;
+    padding: 4px 10px 7px ;
+    font-size: 13px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+    word-wrap:break-word;
+    display: inline-block;
+    margin-top: 8px;
+    margin-left: auto;
+    margin-right: 0px;
+    position: relative;
+    text-align: left;
+    font-weight: 200;
+    padding-bottom: 0 ;
+      
+}
+
+
+
     .messagesdiv {
         min-height: 480px;
         max-height: 480px; 
-        text-align: center;
         width: 980px;
         min-width: 500px;
-        background-color: #0025f9;
+        background-color: #fa1b1b;
         overflow-y: scroll;
+        display: flex;
+        padding: 10px;
+        flex-direction: column;
+        /* overflow-x: hidden; */
     }
 
     .form {
@@ -134,28 +197,33 @@
 
         if (data.username === message_username) {
             document.querySelector('#chat-body').innerHTML += `
-            <tr>
-                <td>
-                    <p class="bg-success p-2 mt-2 mr-5 shadow-sm text-white float-right rounded">
-                        ${data.message} 
-                    </p>
-                </td>
-                <td>
-                    <p><small class="p-1 shadow-sm">${timestamp}</small></p>
-                </td>
-            </tr>`;
+            <div class="row message-body">
+                           <div class="message-container">
+                              <div class="sender">
+                                <div >
+                                    ${data.message}
+                                </div>
+                                <span class="message-time time-right pull-right">
+                                    ${timestamp}
+                                </span>
+                              </div>
+                           </div>
+                          </div>`;
         } else {
             document.querySelector('#chat-body').innerHTML += `
-            <tr>
-                <td>
-                    <p class="bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">
-                        ${data.message}
-                    </p>
-                </td>
-                <td>
-                    <p><small class="p-1 shadow-sm">${timestamp}</small></p>
-                </td>
-            </tr>`;
+
+            <div class="row message-body">
+                           <div class="message-container">
+                              <div class="receiver">
+                                <div >
+                                     ${data.message}aaaaaaaaaa
+                                </div>
+                                <span class="message-time pull-right">
+                                    ${timestamp}
+                                </span>
+                              </div>
+                            </div>
+                          </div>`;
         }
     };
 </script>
