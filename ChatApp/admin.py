@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from ChatApp.models import Room,Message,MyChats
+from ChatApp.models import Room,Message
 
 
 admin.site.register(Room)
@@ -9,8 +9,8 @@ admin.site.register(Message)
 
 #private chat 
 
-@admin.register(MyChats)
-class MyChatsAdmin(admin.ModelAdmin):
-    list_display = ['id','me','frnd','chats']
+# @admin.register(MyChats)
+# class MyChatsAdmin(admin.ModelAdmin):
+#     list_display = ['id','me','frnd','chats']
 
 

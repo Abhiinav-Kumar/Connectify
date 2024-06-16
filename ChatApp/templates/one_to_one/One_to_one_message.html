@@ -91,11 +91,12 @@
 
 {{user.id|json_script:"json-username"}}
 {{request.user.username|json_script:"json-message-username"}}
+{{user.username|json_script:"json-username-receiver"}}
 
 <script>
     const id = JSON.parse(document.getElementById('json-username').textContent);
     const message_username = JSON.parse(document.getElementById('json-message-username').textContent);
-
+    const receiver = JSON.parse(document.getElementById('json-username-receiver').textContent);
 
     const socket = new WebSocket(
         'ws://'
@@ -120,9 +121,12 @@
     socket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         const timestamp = new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+
         console.log('finding user :',data.username);
         console.log('message :',data.message)
         console.log("another userr",message_username)
+
+
         if (data.username === message_username) {
             document.querySelector('#chat-body').innerHTML += `
             <tr>
@@ -160,7 +164,8 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
 
     socket.send(JSON.stringify({
         'message': message,
-        'username': message_username
+        'username': message_username,
+        'receiver':receiver
     }));
 
     message_input.value = '';

@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
-from ChatApp.models import Room,Message
+from ChatApp.models import Room,Message,ChatModelPvt
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate,login,logout
 
 
@@ -44,17 +45,26 @@ def MessageView(request,room_name,username):
 
 #page views
 def Chat_Page(request,*args,**kwargs):
-    users = User.objects.exclude(username = request.session['Username'])
+    users = User.objects.exclude(username = request.user.username)
     return render(request,"one_to_one/Chat.html", {'users':users} )
 
 
 #one to one message
 def One_message(request,username):
-    users = User.objects.exclude(username = request.session['Username'])
-    users_obj = User.objects.get(username = username)
+    users = User.objects.exclude(username = request.user.username)
+    user_obj = User.objects.get(username = username)
 
-    
-    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':users_obj})
+    print("users :",users)
+    print("user_obj :",user_obj)
+
+    if request.user.id > user_obj.id:
+        thread_name = f'chat_{request.user.id}-{user_obj.id}'
+        print('if thread_name :',thread_name)
+    else:
+        thread_name = f'chat_{user_obj.id}-{request.user.id}'
+        print('Else thread_name :',thread_name)
+    message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
+    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':user_obj,'messages': message_objs})
 
 
 

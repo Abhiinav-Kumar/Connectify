@@ -2,6 +2,7 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from ChatApp.models import *
+from django.contrib.auth.models import User
 from asgiref.sync import async_to_sync
 
 
@@ -44,16 +45,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
             new_message.save()
 
 
-
 #private chat settings
 class PersonalChatConsumer(AsyncWebsocketConsumer):
         async def connect(self):
             my_id = self.scope['user'].id
             other_user_id = self.scope['url_route']['kwargs']['id']
+            # other_user_id = 4
+            print("consumer.py : my_id :", my_id)
+            print("consumer.py : other_user_id :",other_user_id)
             if int(my_id) > int(other_user_id):
                 self.room_name = f'{my_id}-{other_user_id}'
+                print('If consumer self.room_name :',self.room_name)
+
             else:
                 self.room_name = f'{other_user_id}-{my_id}'
+                print('Else consumer self.room_name :',self.room_name)
 
             self.room_group_name = 'chat_%s' % self.room_name
 
@@ -64,17 +70,16 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
 
             await self.accept()
 
-        async def disconnect(self, close_code):
-            self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_layer
-        )
             
         async def receive(self, text_data=None, bytes_data=None):
             data = json.loads(text_data)
+            print(data)
             message = data['message']
             username = data['username']
-            print(f"data after receive function :",message,username)
+            receiver = data['receiver']
+            print(f"data after extract receive function :",message,username,receiver)
+            
+            await self.save_message(username,self.room_group_name,message,receiver)
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -87,9 +92,28 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
         async def chat_message(self,event):
             message = event['message']
             username = event['username']
+
             print("Chat message function :",message, username)
+
             await self.send(text_data=json.dumps({
                 'message':message,
                 'username':username
             }))
+
+
+        async def disconnect(self, close_code):
+            self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_layer
+        )
+            
+        @database_sync_to_async
+        def save_message(self,username,thread_name,message,receiver):
+            chat_obj = ChatModelPvt.objects.create(
+                sender=username,message=message,thread_name=thread_name)
+            
+            other_user_id = self.scope['url_route']['kwargs']['id']
+            get_user = User.objects.get(id=other_user_id)
+            if receiver == get_user.username:
+                ChatNotification.objects.create(chat=chat_obj,user=get_user)
             
