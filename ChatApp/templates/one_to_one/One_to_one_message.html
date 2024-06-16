@@ -11,7 +11,7 @@
 
     <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
         <div class="selected-user">
-            <span style="text-transform: capitalize;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}</span>
+            <span style="text-transform: capitalize;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} {{frnd.id}}</span>
         </div>
         <div class="chat-container messagesdiv">
             <table class="table">
@@ -93,10 +93,13 @@
 {{request.user.username|json_script:"json-message-username"}}
 {{user.username|json_script:"json-username-receiver"}}
 
+
+
 <script>
     const id = JSON.parse(document.getElementById('json-username').textContent);
     const message_username = JSON.parse(document.getElementById('json-message-username').textContent);
     const receiver = JSON.parse(document.getElementById('json-username-receiver').textContent);
+    
 
     const socket = new WebSocket(
         'ws://'
@@ -105,6 +108,8 @@
         + id
         + '/'
     );
+
+    
 
     socket.onopen = function(e) {
         console.log("CONNECTION ESTABLISHED");
