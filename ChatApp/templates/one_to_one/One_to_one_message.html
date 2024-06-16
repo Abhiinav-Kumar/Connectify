@@ -15,36 +15,31 @@
         </div>
         <div class="chat-container messagesdiv" id='chat-body'>
 
-                    {% for message in messages %}
-                    {% if message.sender == request.frnd.username %}
-
-                        <div class="row message-body">
-                            <!-- <div class=" message-main-sender"> -->
-                              <div class="sender">
-                                <div class="message-text">
-                                    {{message.message}} receiver
-                                </div>
-                                <span class="message-time pull-right">
-                                    {{message.timestamp|time:'H:i'}}
-                                </span>
-                              </div>
-                            <!-- </div> -->
-                          </div>
-                    {% else %}
-                        <div class="row message-body">
-                            <!-- <div class=" message-main-receiver"> -->
-                              <div class="receiver">
-                                <div class="message-text">
-                                    {{message.message}} receiver
-                                </div>
-                                <span class="message-time pull-right">
-                                    {{message.timestamp|time:'H:i'}}
-                                </span>
-                              </div>
-                            <!-- </div> -->
-                          </div>
-                    {% endif %}
-                    {% endfor %}
+            {% for message in messages %}
+                {% if message.sender != request.user.username %}
+                    <div class="row message-body">
+                        <div class="message-container receiver">
+                            <div class="message-text">
+                                {{message.message}} 
+                            </div>
+                            <span class="message-time pull-right">
+                                {{message.timestamp|time:'H:i'}}
+                            </span>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row message-body">
+                        <div class="message-container sender">
+                            <div class="message-text">
+                                {{message.message}} 
+                            </div>
+                            <span class="message-time pull-right">
+                                {{message.timestamp|time:'H:i'}}
+                            </span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
                
         </div>
         <div class="form">
@@ -63,107 +58,85 @@
 
 .message-container {
     display: flex;
-    justify-content: flex-end; /* Align children to the right */
-    width: 100%; /* Ensure the container spans the full width */
-}
-
-.message-time {
-  font-size: 12px;
-  color: #9a9a9a;
-  margin-right: 0px;
-  
-}
-
-.time-right{
-    margin-left: auto;
-    margin-right: 2px;
-    align-self: flex-end;
-}
-
-.receiver {
-    width: auto ;
     max-width: 360px;
-    padding: 4px 10px 7px ;
-    border-radius: 10px 10px 10px 0;
-    background: #ffffff;
+    padding: 4px 10px 7px;
     font-size: 13px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
     word-wrap: break-word;
     display: inline-block;
     font-weight: 200;
     margin-top: 8px;
-    
+    border-radius: 10px;
+    justify-content: space-between;
+}
+
+.message-time {
+  font-size: 12px;
+  color: #9a9a9a;
+}
+
+.receiver {
+    justify-content: flex-start;
+    background: #ffffff;
+    border-radius: 10px 10px 10px 0;
+    text-align: left;
 }
 
 .sender {
-    width: auto;
-    max-width: 360px;
+    
     background: #dcf8c6;
     border-radius: 10px 10px 0 10px;
-    padding: 4px 10px 7px ;
-    font-size: 13px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-    word-wrap:break-word;
-    display: inline-block;
-    margin-top: 8px;
-    margin-left: auto;
-    margin-right: 0px;
-    position: relative;
-    text-align: left;
-    font-weight: 200;
-    padding-bottom: 0 ;
-      
+    text-align: right;
+    float: right;
+    margin-right: 10px;
+    
 }
 
 
+.messagesdiv {
+    min-height: 480px;
+    max-height: 480px; 
+    width: 980px;
+    min-width: 500px;
+    background-color: #fa1b1b;
+    overflow-y: scroll;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    /* overflow-x: hidden; */
+}
 
-    .messagesdiv {
-        min-height: 480px;
-        max-height: 480px; 
-        width: 980px;
-        min-width: 500px;
-        background-color: #fa1b1b;
-        overflow-y: scroll;
-        display: flex;
-        padding: 10px;
-        flex-direction: column;
-        /* overflow-x: hidden; */
-    }
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
 
-    .form {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-    }
+.form textarea {
+    max-height: 65px;
+    border-radius: 5px 5px 5px 8px;
+    padding: 10px;
+    resize: none;
+    margin-bottom: -5px;
+}
 
-    .form textarea {
-        max-height: 65px;
-        border-radius: 5px 5px 5px 8px;
-        padding: 10px;
-        resize: none;
-        margin-bottom: -5px;
-    }
-
-    .send-btn {
-        width: 150px;
-        height: 50px;
-        margin: 10px;
-        margin-bottom: 8px;
-    }
+.send-btn {
+    width: 150px;
+    height: 50px;
+    margin: 10px;
+    margin-bottom: 8px;
+}
 </style>
 
 {{user.id|json_script:"json-username"}}
 {{request.user.username|json_script:"json-message-username"}}
-{{user.username|json_script:"json-username-receiver"}}
-
-
+{{frnd.username|json_script:"json-username-receiver"}}
 
 <script>
     const id = JSON.parse(document.getElementById('json-username').textContent);
     const message_username = JSON.parse(document.getElementById('json-message-username').textContent);
     const receiver = JSON.parse(document.getElementById('json-username-receiver').textContent);
     
-
     const socket = new WebSocket(
         'ws://'
         + window.location.host
@@ -171,8 +144,6 @@
         + id
         + '/'
     );
-
-    
 
     socket.onopen = function(e) {
         console.log("CONNECTION ESTABLISHED");
@@ -194,41 +165,33 @@
         console.log('message :',data.message)
         console.log("another userr",message_username)
 
-
         if (data.username === message_username) {
             document.querySelector('#chat-body').innerHTML += `
             <div class="row message-body">
-                           <div class="message-container">
-                              <div class="sender">
-                                <div >
-                                    ${data.message}
-                                </div>
-                                <span class="message-time time-right pull-right">
-                                    ${timestamp}
-                                </span>
-                              </div>
-                           </div>
-                          </div>`;
+                <div class="message-container sender">
+                    <div class="message-text">
+                        ${data.message} 
+                    </div>
+                    <span class="message-time pull-right">
+                        ${timestamp}
+                    </span>
+                </div>
+            </div>`;
         } else {
             document.querySelector('#chat-body').innerHTML += `
-
             <div class="row message-body">
-                           <div class="message-container">
-                              <div class="receiver">
-                                <div >
-                                     ${data.message}aaaaaaaaaa
-                                </div>
-                                <span class="message-time pull-right">
-                                    ${timestamp}
-                                </span>
-                              </div>
-                            </div>
-                          </div>`;
+                <div class="message-container receiver">
+                    <div class="message-text">
+                        ${data.message} 
+                    </div>
+                    <span class="message-time pull-right">
+                        ${timestamp}
+                    </span>
+                </div>
+            </div>`;
         }
     };
-</script>
 
-<script>
 document.querySelector('#chat-message-submit').onclick = function(e) {
     const message_input = document.querySelector('#message_input');
     const message = message_input.value;
