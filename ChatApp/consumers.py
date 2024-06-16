@@ -64,7 +64,7 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
 
             await self.accept()
 
-        async def disconnect(self, code):
+        async def disconnect(self, close_code):
             self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_layer
@@ -74,7 +74,7 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
             data = json.loads(text_data)
             message = data['message']
             username = data['username']
-
+            print(f"data after receive function :",message,username)
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -82,12 +82,12 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
                     'message':message,
                     'username':username
                 }
-            )
+            ) 
         
         async def chat_message(self,event):
             message = event['message']
             username = event['username']
-
+            print("Chat message function :",message, username)
             await self.send(text_data=json.dumps({
                 'message':message,
                 'username':username

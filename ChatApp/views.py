@@ -52,6 +52,8 @@ def Chat_Page(request,*args,**kwargs):
 def One_message(request,username):
     users = User.objects.exclude(username = request.session['Username'])
     users_obj = User.objects.get(username = username)
+
+    
     return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':users_obj})
 
 
