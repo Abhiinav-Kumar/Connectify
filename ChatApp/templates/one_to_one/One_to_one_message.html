@@ -11,8 +11,8 @@
 
     <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9  " style="background-color: #7e3af2; border-radius: 8px;"  id="close-chat-tab">
         <div class="selected-user" style="background-color: #7e3af2; border-bottom: 2px solid #7e3af2;border-radius: 8px;">
-            <span style="text-transform: capitalize; padding-left: 40px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} 
-                <div style="margin-top: -50px;" class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+            <span style="text-transform: capitalize; padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} 
+                <div style="margin-top: -50px;margin-left: 10px;" class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                     <img class="object-cover w-full h-full rounded-full" 
                     src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy">
                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
@@ -21,7 +21,7 @@
         </div>
         <div class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
 
-            {% for message in messages %}
+            {% for message in messages_ %}
                 {% if message.sender != request.user.username %}
                     <div class="row message-body">
                         <div class="message-container receiver">
@@ -78,7 +78,7 @@
 }
 
 .message-time {
-  font-size: 12px;
+  font-size: 9px;
   color: #9a9a9a;
 }
 
@@ -95,7 +95,7 @@
     border-radius: 10px 10px 0 10px;
     text-align: left;
     float: right;
-    margin-right: 0px;
+    margin-right: -6px;
     
 }
 
@@ -111,6 +111,7 @@
     padding: 10px;
     flex-direction: column;
     margin: 0px 10px;
+    border-radius: 5px;
     /* overflow-x: hidden; */
 }
 
@@ -139,6 +140,23 @@
     margin-bottom: 8px;
     border: 2px solid white;
 }
+
+.messagesdiv::-webkit-scrollbar{
+    width: 6px;
+}
+
+.messagesdiv::-webkit-scrollbar-track{
+    background-color: transparent;
+    
+}
+
+.messagesdiv::-webkit-scrollbar-thumb{
+    background-color:#bec0c4;
+    border-radius: 50px;
+    
+}
+
+
 </style>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -184,13 +202,28 @@
         console.log(e);
     };
 
+    // formating time 
+    function formatTime(number) {
+    return number < 10 ? '0' + number : number;
+}
+
     socket.onmessage = function(e) {
         const data = JSON.parse(e.data);
-        const timestamp = new Date(data.timestamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+        const now = new Date()
+        const hours = formatTime(now.getHours());
+        const minutes = formatTime(now.getMinutes());
+        const timestamp = `${hours}:${minutes}`;
+
 
         console.log('finding user :',data.username);
         console.log('message :',data.message)
         console.log("another userr",message_username)
+
+        console.log("time :",now)
+        console.log("hours :",hours)
+        console.log("minutes :",minutes)
+
+
 
         if (data.username === message_username) {
             document.querySelector('#chat-body').innerHTML += `

@@ -64,7 +64,7 @@ def One_message(request,username):
         thread_name = f'chat_{user_obj.id}-{request.user.id}'
         print('Else thread_name :',thread_name)
     message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
-    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':user_obj,'messages': message_objs})
+    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':user_obj,'messages_': message_objs})
 
 
 
@@ -95,6 +95,7 @@ def User_signup(request):
         else:
             user = User.objects.create_user(username=USERNAME,email=EMAIL,password=PASSWORD)
             user.save()
+            messages.success(request,'Account Created')
         return redirect(login_page)
     
 #login views
@@ -106,9 +107,9 @@ def user_login(request):
         user = authenticate(username=USERNAME,password=PASSWORD)
         if user is not None:
             login(request, user)
-            messages.success(request,"Successfully logged in")
             request.session['Username']=USERNAME
             request.session['Password']=PASSWORD
+            messages.success(request,"Successfully logged in")
             return redirect(Chat_Page)
         else:
             return redirect(Home_page)
