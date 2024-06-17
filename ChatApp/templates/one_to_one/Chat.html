@@ -37,7 +37,7 @@
     <aside style="width:12rem; "
       class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
       <div class="py-4 text-gray-500 dark:text-gray-400">
-        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="{% url 'Home_page' %}">
+        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="{% url 'Chat_Page' %}">
           Connectify <img style="width:35px; height:40px; margin-left:130px; margin-top:-28px;"
             src="{% static 'webstyle/logo/Connectify_Favivon.png' %}">
         </a>
@@ -346,7 +346,7 @@
           <div class=" bg-white rounded-lg shadow-xs dark:bg-gray-800 welcomediv">
           
               {% if request.session.Username %}
-              <h1 style= "text-transform: capitalize;" class="Intro-title font-semibold">Welcome, {{request.session.Username}}</h1>
+              <h1 style= "text-transform: capitalize; padding-top: 100px;" class="Intro-title font-semibold">Welcome, {{request.session.Username}}</h1>
               <h4 class="quotes dark:text-gray-200">'Building Bridges through Conversation.'</h4>
 
                {% endif %}

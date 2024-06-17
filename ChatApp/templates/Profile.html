@@ -308,10 +308,10 @@
               {% if request.session.Username %}
               <h1 class="font-semibold text-gray-700 dark:text-gray-200 username ">{{request.session.Username}}</h1>
               {% endif %}
+            {% if data %}
+              <h3 class="font-semibold text-gray-700 dark:text-gray-200 email">{{data.email}}</h3>
+            {% endif %}
             
-              <h3 class="font-semibold text-gray-700 dark:text-gray-200 email">example@gmail.com</h3>
-
-
 
               <div>
                 <a href="#">

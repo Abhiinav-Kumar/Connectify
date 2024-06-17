@@ -48,14 +48,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
 #private chat settings
 class PersonalChatConsumer(AsyncWebsocketConsumer):
         async def connect(self):
-            # my_id = self.scope['user'].id
-            # other_user_id = self.scope['url_route']['kwargs']['id']
-            my_id = 1
-            other_user_id = 4
-            print( 'Current user ',self.scope['user'])
-            print('Another user ',self.scope['url_route'])
-            print("consumer.py : my_id : ", my_id)
-            print("consumer.py : other_user_id : ",other_user_id)
+            my_id = self.scope['user'].id
+            other_user_id = self.scope['url_route']['kwargs']['id']
+            # my_id = 3
+            # other_user_id = 1
+            # print('Scope:', self.scope)
+            # print( 'Current user ',self.scope['user'])
+            # print('Another user ',self.scope['url_route'])
+            # print("consumer.py : my_id : ", my_id)
+            # print("consumer.py : other_user_id : ",other_user_id)
+
+
             if int(my_id) > int(other_user_id):
                 self.room_name = f'{my_id}-{other_user_id}'
                 print('If consumer self.room_name :',self.room_name)

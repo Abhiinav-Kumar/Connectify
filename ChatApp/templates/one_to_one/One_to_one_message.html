@@ -9,9 +9,15 @@
 </head>
 <body>
 
-    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9 "  id="close-chat-tab">
         <div class="selected-user">
-            <span style="text-transform: capitalize;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} {{frnd.id}}</span>
+            <span style="text-transform: capitalize; padding-left: 40px;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} 
+                <div style="margin-top: -50px;" class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                    <img class="object-cover w-full h-full rounded-full" 
+                    src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy">
+                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                  </div>
+            </span>
         </div>
         <div class="chat-container messagesdiv" id='chat-body'>
 
@@ -43,13 +49,14 @@
                
         </div>
         <div class="form">
-            <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
+            <textarea class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" 
             placeholder="Write message..."
             type="text"
-            id="message_input">
-            <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            id="message_input"></textarea>
+            <button class="send-btn px-4 py-2 text-sm font-medium leading-5
+             text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             id="chat-message-submit">
-                Send
+                Send <i class="fa-solid fa-arrow-up"></i>
             </button>
         </div>
     </div>
@@ -64,7 +71,7 @@
     text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
     word-wrap: break-word;
     display: inline-block;
-    font-weight: 200;
+    font-weight: 400;
     margin-top: 8px;
     border-radius: 10px;
     justify-content: space-between;
@@ -86,19 +93,19 @@
     
     background: #dcf8c6;
     border-radius: 10px 10px 0 10px;
-    text-align: right;
+    text-align: left;
     float: right;
-    margin-right: 10px;
+    margin-right: 0px;
     
 }
 
 
 .messagesdiv {
-    min-height: 480px;
-    max-height: 480px; 
+    min-height: 482px;
+    max-height: 482px; 
     width: 980px;
     min-width: 500px;
-    background-color: #fa1b1b;
+    background-color: #f4f0f0;
     overflow-y: scroll;
     display: flex;
     padding: 10px;
@@ -113,11 +120,15 @@
 }
 
 .form textarea {
-    max-height: 65px;
+    height: 68px;
     border-radius: 5px 5px 5px 8px;
     padding: 10px;
     resize: none;
     margin-bottom: -5px;
+    width: 90%;
+    margin-left: 0px;
+    margin-top: -3px;
+    
 }
 
 .send-btn {
@@ -128,20 +139,34 @@
 }
 </style>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $("#close-chat-tab").dblclick(function(){
+            $("#close-chat-tab").hide()
+        })
+    })
+</script>
+
 {{user.id|json_script:"json-username"}}
 {{request.user.username|json_script:"json-message-username"}}
-{{frnd.username|json_script:"json-username-receiver"}}
+{{frnd.id|json_script:"json-id-receiver"}}
 
 <script>
     const id = JSON.parse(document.getElementById('json-username').textContent);
     const message_username = JSON.parse(document.getElementById('json-message-username').textContent);
-    const receiver = JSON.parse(document.getElementById('json-username-receiver').textContent);
+    const receiver = JSON.parse(document.getElementById('json-id-receiver').textContent);
     
+    console.log('Const id',id)
+    console.log('Const id',message_username)
+    console.log('Const id receiver',receiver)
+
     const socket = new WebSocket(
         'ws://'
         + window.location.host
         + '/ws/'
-        + id
+        + receiver
         + '/'
     );
 
@@ -190,7 +215,19 @@
                 </div>
             </div>`;
         }
+        scrollToBottom()
     };
+
+     // Function to scroll to the bottom of the chat container
+     function scrollToBottom() {
+        const chatBody = document.querySelector('#chat-body');
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    // Initial call to scroll to the bottom when the page loads
+    document.addEventListener('DOMContentLoaded', (event) => {
+        scrollToBottom();
+    });
 
 document.querySelector('#chat-message-submit').onclick = function(e) {
     const message_input = document.querySelector('#message_input');
@@ -205,6 +242,7 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
     }));
 
     message_input.value = '';
+    scrollToBottom()
 };
 </script>
 

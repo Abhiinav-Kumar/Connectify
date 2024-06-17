@@ -53,7 +53,7 @@ def Chat_Page(request,*args,**kwargs):
 def One_message(request,username):
     users = User.objects.exclude(username = request.user.username)
     user_obj = User.objects.get(username = username)
-
+    
     print("users :",users)
     print("user_obj :",user_obj)
 
@@ -122,7 +122,9 @@ def logout_view(request):
 
 # profile section 
 def Profile_Page(request):
-    return render(request,"Profile.html",)
+    data = User.objects.get(username=request.session['Username'])
+    print(data)
+    return render(request,"Profile.html",{'data':data})
 
 
 
