@@ -116,10 +116,8 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
         @database_sync_to_async
         def save_message(self,username,thread_name,message,receiver):
             chat_obj = ChatModelPvt.objects.create(
-                sender=username,message=message,thread_name=thread_name)
-            
-            other_user_id = self.scope['url_route']['kwargs']['id']
-            get_user = User.objects.get(id=other_user_id)
-            if receiver == get_user.username:
-                ChatNotification.objects.create(chat=chat_obj,user=get_user)
-            
+                sender=username,
+                message=message,
+                thread_name=thread_name)
+            return chat_obj
+          

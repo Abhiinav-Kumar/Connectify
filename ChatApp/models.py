@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 
 
 #public chat room model
-
 class Room(models.Model):
     room_name = models.CharField(max_length=255)
 
@@ -39,14 +38,7 @@ class ChatModelPvt(models.Model):
         return self.message
     
 
-class ChatNotification(models.Model):
-    chat = models.ForeignKey(to=ChatModelPvt, on_delete=models.CASCADE)
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    is_seen = models.BooleanField(default=False)
 
-    def __str__(self) -> str:
-        return self.user.username
-   
 
 
 

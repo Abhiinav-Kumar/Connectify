@@ -9,9 +9,9 @@
 </head>
 <body>
 
-    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9 "  id="close-chat-tab">
-        <div class="selected-user">
-            <span style="text-transform: capitalize; padding-left: 40px;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} 
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9  " style="background-color: #7e3af2; border-radius: 8px;"  id="close-chat-tab">
+        <div class="selected-user" style="background-color: #7e3af2; border-bottom: 2px solid #7e3af2;border-radius: 8px;">
+            <span style="text-transform: capitalize; padding-left: 40px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} 
                 <div style="margin-top: -50px;" class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                     <img class="object-cover w-full h-full rounded-full" 
                     src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy">
@@ -19,7 +19,7 @@
                   </div>
             </span>
         </div>
-        <div class="chat-container messagesdiv" id='chat-body'>
+        <div class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
 
             {% for message in messages %}
                 {% if message.sender != request.user.username %}
@@ -56,7 +56,7 @@
             <button class="send-btn px-4 py-2 text-sm font-medium leading-5
              text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             id="chat-message-submit">
-                Send <i class="fa-solid fa-arrow-up"></i>
+                Send <i class="fa-regular fa-paper-plane"></i>
             </button>
         </div>
     </div>
@@ -110,6 +110,7 @@
     display: flex;
     padding: 10px;
     flex-direction: column;
+    margin: 0px 10px;
     /* overflow-x: hidden; */
 }
 
@@ -120,13 +121,13 @@
 }
 
 .form textarea {
-    height: 68px;
+    height: 52px;
     border-radius: 5px 5px 5px 8px;
     padding: 10px;
     resize: none;
     margin-bottom: -5px;
     width: 90%;
-    margin-left: 0px;
+    margin-left: 5px;
     margin-top: -3px;
     
 }
@@ -136,6 +137,7 @@
     height: 50px;
     margin: 10px;
     margin-bottom: 8px;
+    border: 2px solid white;
 }
 </style>
 
