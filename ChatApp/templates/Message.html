@@ -607,9 +607,9 @@
       var messageDiv = document.querySelector('.message');
 
       if (sender != '{{user}}') { 
-        messageDiv.innerHTML += '<div class="receive"><p style="color: white; text-align:left;">' + message + '<h6 style = "font-size:10px;color:black;padding-top:8px;padding-bottom:0px;font-weight:100px;text-align:left;">-' + sender + '</h6></p></div>';
+        messageDiv.innerHTML += '<div class="receive"><p style="color: black; text-align:left;">' + message + '<h6 class="sender_name">-' + sender + '</h6></p></div>';
       } else {
-        messageDiv.innerHTML += '<div class="send"><p style="color: white;">' + message + '</p></div>';
+        messageDiv.innerHTML += '<div class="send"><p style="color: black;">' + message + '</p></div>';
       }
       scrollToBottom();
 

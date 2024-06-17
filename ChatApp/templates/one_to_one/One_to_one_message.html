@@ -19,7 +19,7 @@
                   </div>
             </span>
         </div>
-        <div class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
+        <div title="Double Click to Close the tab" class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
 
             {% for message in messages_ %}
                 {% if message.sender != request.user.username %}

@@ -112,7 +112,8 @@ def user_login(request):
             messages.success(request,"Successfully logged in")
             return redirect(Chat_Page)
         else:
-            return redirect(Home_page)
+            messages.error(request,"Username or Password is not matching, Try again")
+            return redirect(login_page)
         
 
 

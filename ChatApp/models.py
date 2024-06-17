@@ -22,7 +22,7 @@ class Message(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     sender = models.CharField(max_length=255)
     message = models.TextField()
-    # timestamp = models.TimeField(auto_now=True)
+    
 
     def __str__(self):
         return str(self.room)
@@ -37,6 +37,13 @@ class ChatModelPvt(models.Model):
 
     def __str__(self) -> str:
         return self.message
+    
+# User details model
+
+class User_details(models.Model):
+    user_name = models.OneToOneField(User,on_delete=models.CASCADE)
+    profile_image = models.ImageField(upload_to="Profile_Images",null=True,blank=True,default="logo/Connectify.png")
+    Bio = models.CharField(max_length=50,null=True,blank=True)
     
 
 

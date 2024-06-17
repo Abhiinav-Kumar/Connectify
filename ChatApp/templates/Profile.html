@@ -297,58 +297,31 @@
 
 
       <!--        main page-->
-      <main class="h-full overflow-y-auto">
-        <div class="container px-6 mx-auto grid main-container">
-          <div class="main-profile-card flex-1 h-full   overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
-            <div class="image-box">
-              <img src="{% static 'webstyle/logo/Designer.png' %}" alt="">
-            </div>
-            <div class="profile-info">
-             
-              {% if request.session.Username %}
-              <h1 class="font-semibold text-gray-700 dark:text-gray-200 username ">{{request.session.Username}}</h1>
-              {% endif %}
-            {% if data %}
-              <h3 class="font-semibold text-gray-700 dark:text-gray-200 email">{{data.email}}</h3>
-              <h3 class="font-semibold text-gray-700 dark:text-gray-200 email">{{data.date_joined}}</h3>
-            {% endif %}
-            
+      <main class="h-full overflow-y-auto" style="justify-content: center; text-align: center;display: flex; align-items: center;">
+        <div class="card-container">
+          
+          <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
+          {% if request.session.Username %}
+          <h6 class="font-semibold">{{request.session.Username}}</h6>
+          {% endif %}
 
-              <div>
-                <a href="#">
-                  <button
-                    class="Update flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                    <span>Update</span><i class="fa-solid fa-pen-nib"></i>
-                  </button>
-                </a>
-              </div>
-              <div>
-                <a href="#">
-                  <button
-                    class="change flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                    <span>Change Password</span><i class="fa-solid fa-wrench"></i>
-                  </button>
-                </a>
-              </div>
-            </div>
-            <div class="friends-info">
-              <div class="friend-box" style="background:blue;">
-                <a href="#">
-                  <h4 class="friends mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                    <i class="fa-solid fa-user-group"></i> Friends
-                  </h4>
-                </a>
-              </div>
-              <div class="friend-box" style="background:red;">
-                <a href="#">
-                  <h4 class="request mb-4 font-semibold text-gray-800 dark:text-gray-300">
-                    <i class="fa-solid fa-user-plus"></i> Friends Request
-                  </h4>
-                </a>
-              </div>
-            </div>
+          {% if data %}
+          <h3>{{data.email}}</h3>
+          {% endif %}
+          <p>User interface designer and <br/> front-end developer</p>
+          
+          <div class="buttons">
+            <button class="primary px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+              Update
+            </button>
+            <button class="primary delete-btn px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600  focus:outline-none focus:shadow-outline-purple">
+              Delete
+            </button>
           </div>
         </div>
+        
+       <!-- profile end here  -->
+
       </main>
     </div>
   </div>
@@ -369,103 +342,83 @@
   </section>
 
   <style>
-    .main-profile-card {
-      height: 600px;
-      margin-top: 40px;
 
-      width: 95%;
-      display: flex;
-      display: flex-inline;
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 
-    }
 
-    .image-box {
-      text-align: center;
-      width: 200px;
-      height: 200px;
-      margin-left: 40px;
-      margin-top: 40px;
-      margin-bottom: 30px;
 
-    }
+h3 {
+	margin: 10px 0;
+}
 
-    img {
-      border-radius: 50%;
-      cursor: pointer;
-    }
+h6 {
+	margin: 5px 0;
+	text-transform: uppercase;
+}
 
-    .profile-info {
-      width: 500px;
-      height: 100%;
-      border-left: 0.1px solid rgb(0, 0, 0, 0.1);
-      border-right: 0.1px solid rgb(0, 0, 0, 0.1);
-      margin-left: 40px;
-      cursor: pointer;
-    }
+p {
+	font-size: 14px;
+	line-height: 21px;
+}
 
-    .profile-info h1 {
-      text-transform: uppercase;
-    }
+.card-container {
+	/* background-color: #231E39; */
+  background-color: white;
+	border-radius: 5px;
+	/* box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75); */
+	padding-top: 30px;
+	position: relative;
+	width: 460px;
+	text-align: center;
+  box-shadow: 0 2px 15px black;
 
-    .friends-info {
-      width: 200px;
-      height: 100px;
-      margin-left: 40px;
-      margin-top: 100px;
-      padding-top: 40px;
-      margin-right: 40px;
+}
+.round{
+  margin: auto;
+  
+}
 
-    }
+.card-container .round {
+	border: 1px solid #03BFCB;
+	border-radius: 50%;
+	padding: 7px;
+}
 
-    .username {
-      padding-top: 100px;
-      padding-left: 50px;
-      font-size: 20px;
-    }
+button.primary {
+	font-weight: 500;
+	padding: 10px 25px;
 
-    .email {
-      padding-left: 50px;
-      padding-top: 15px;
-    }
+}
 
-    .Update,
-    .change {
-      width: 240px;
-      text-align: center;
-      margin-left: 40px;
-      margin-top: 100px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
+.delete-btn:hover{
+  background-color: red;
+  border: 1px solid white;
+}
 
-    .change {
-      margin-top: 20px;
-    }
+.buttons {
+  background-color:#f9fafb;
+	text-align: left;
+	padding: 100px;
+	margin-top: 50px;
+  text-align: center;
+  height:250px ;
+}
 
-    .change span,
-    .Update span {
-      padding-right: 8px;
-    }
+.skills ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
 
-    .friends-info i {
-      padding-right: 5px;
-    }
+.skills ul li {
+	border: 1px solid #2D2747;
+	border-radius: 2px;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+}
 
-    .friend-box:hover {
-      padding-left: 10px;
-
-    }
-
-    .friend-box {
-      width: 200px;
-      height: 50px;
-      text-align: left;
-      padding-left: 5px;
-      padding-top: 10px;
-      margin-top: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
   </style>
   
 </body>
