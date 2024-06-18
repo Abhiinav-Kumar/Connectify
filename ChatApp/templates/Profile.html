@@ -299,8 +299,10 @@
       <!--        main page-->
       <main class="h-full overflow-y-auto" style="justify-content: center; text-align: center;display: flex; align-items: center;">
         <div class="card-container">
+          {% if userdata %}
+          <a href="{% url 'logout_view' %}"><span title="Log out" class="pro"><i class="fa-solid fa-right-from-bracket"></i></span></a>
+          <img class="round" src="{{ userdata.profile_image.url }}" alt="user" />
           
-          <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
           {% if request.session.Username %}
           <h6 class="font-semibold">{{request.session.Username}}</h6>
           {% endif %}
@@ -308,8 +310,8 @@
           {% if data %}
           <h3>{{data.email}}</h3>
           {% endif %}
-          <p>User interface designer and <br/> front-end developer</p>
-          
+          <p>{{userdata.Bio}}</p>
+          {% endif %}
           <div class="buttons">
             <button class="primary px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
               Update
@@ -370,16 +372,36 @@ p {
 	position: relative;
 	width: 460px;
 	text-align: center;
+  max-height: 800px;
   box-shadow: 0 2px 15px black;
 
 }
+
+.card-container .pro {
+	color: #231E39;
+	background-color: #FEBB0B;
+	border-radius: 3px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 3px 7px;
+	position: absolute;
+	top: 30px;
+	left: auto;
+  right: 30px;
+}
+
+img{
+    width: 200px;
+    height: 200px;
+}
+
 .round{
   margin: auto;
   
 }
 
 .card-container .round {
-	border: 1px solid #03BFCB;
+	border: 2px solid #7e3af2;
 	border-radius: 50%;
 	padding: 7px;
 }
@@ -396,7 +418,7 @@ button.primary {
 }
 
 .buttons {
-  background-color:#f9fafb;
+  background-color:#f2f2f2;
 	text-align: left;
 	padding: 100px;
 	margin-top: 50px;

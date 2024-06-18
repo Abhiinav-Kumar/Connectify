@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from ChatApp.models import Room,Message,ChatModelPvt
+from ChatApp.models import Room,Message,ChatModelPvt,User_details
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -46,7 +46,9 @@ def MessageView(request,room_name,username):
 #page views
 def Chat_Page(request,*args,**kwargs):
     users = User.objects.exclude(username = request.user.username)
-    return render(request,"one_to_one/Chat.html", {'users':users} )
+    currentuserid = User.objects.get(username=request.user.username)
+    userdata = User_details.objects.get(user_name=currentuserid.id)
+    return render(request,"one_to_one/Chat.html", {'users':users,'userdata':userdata} )
 
 
 #one to one message
@@ -124,9 +126,14 @@ def logout_view(request):
 
 # profile section 
 def Profile_Page(request):
-    data = User.objects.get(username=request.session['Username'])
-    print(data)
-    return render(request,"Profile.html",{'data':data})
+    try:
+        data = User.objects.get(username=request.session['Username'])
+        user_id = data.id
+        userdata = User_details.objects.get(user_name=user_id)
+        print(data)
+        return render(request,"Profile.html",{'data':data,'userdata':userdata})
+    except KeyError:
+        return redirect(Home_page)
 
 
 

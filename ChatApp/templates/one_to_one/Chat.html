@@ -270,9 +270,11 @@
             <li class="relative">
               <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                 @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
+                {% if userdata %}
                 <img class="object-cover w-8 h-8 rounded-full"
-                  src="{{request.user.profile_image.url}}"
+                  src="{{userdata.profile_image.url}}"
                   alt="" aria-hidden="true" />
+                {% endif %}
               </button>
               <template x-if="isProfileMenuOpen">
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
@@ -313,7 +315,7 @@
             </p>
             
             {% for x in users %}
-            <a href="{% url 'One_message' username=x.username %}">
+            <a href="{% url 'One_message' username=x.username  %}">
               <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
                 <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                   <img class="object-cover w-full h-full rounded-full" 
