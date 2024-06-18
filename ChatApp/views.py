@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate,login,logout
-
+from django.db.models import Q
 # Create your views here.
 
 def Home_page(request):
@@ -92,6 +92,12 @@ def Public_Room_page(request):
     return render(request,"Public_Room.html",{'userdata':userdata})
 
 def MessageView(request,room_name,username):
+
+    try:
+        userdata = User_details.objects.get(user_name=request.user.username)
+    except User_details.DoesNotExist:
+        userdata = User_details.objects.get(user_name="default")
+
     get_room = Room.objects.get(room_name=room_name)
     get_messages = Message.objects.filter(room=get_room)
 
@@ -99,7 +105,7 @@ def MessageView(request,room_name,username):
         "messages": get_messages,
         "user": username,
         "room_name": room_name,
-
+        'userdata':userdata
     }
     return render(request,"Message.html",context)
 #end room message view
@@ -110,8 +116,8 @@ def MessageView(request,room_name,username):
 def Chat_Page(request,*args,**kwargs):
 
     try:
-        users = User.objects.exclude(username = request.user.username)
-        userdata = User_details.objects.get(user_name=request.user.username)
+        users = User.objects.exclude(Q(username = request.user.username)| Q(username='default'))
+        userdata = User_details.objects.get(user_name = request.user.username)
 
         #Getting user profile images
         users_data = []
