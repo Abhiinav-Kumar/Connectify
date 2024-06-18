@@ -9,19 +9,19 @@
 </head>
 <body>
     {% block content %}
-    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9  " style="background-color: #7e3af2; border-radius: 8px;"  id="close-chat-tab">
+    <div class="main-chat-container" id="close-chat-tab">
         <div class="selected-user" style="background-color: #7e3af2; border-bottom: 2px solid #7e3af2;border-radius: 8px;">
-            <span style="text-transform: capitalize; padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}} 
+            <span style="text-transform: capitalize; padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}
+                <i id="x-cross" style="float: right; margin-top: 22px; margin-right: 20px;" title="Click to Close the tab" class="fa-solid fa-xmark"></i> 
                 <div style="margin-top: -50px;margin-left: 10px;" class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                     {% if userpro %}
                     <img class="object-cover w-full h-full rounded-full" 
                     src="{{userpro.profile_image.url}}" alt="" loading="lazy">
-                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     {% endif %}
                   </div>
             </span>
         </div>
-        <div title="Double Click to Close the tab" class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
+        <div  class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
 
             {% for message in messages_ %}
                 {% if message.sender != request.user.username %}
@@ -65,6 +65,14 @@
 
 <style>
 
+
+.main-chat-container{
+    background-color: #7e3af2;
+    border-radius: 8px;
+    width: 200dvh; 
+    margin-bottom: 20px;  
+}
+
 .message-container {
     display: flex;
     max-width: 360px;
@@ -105,8 +113,7 @@
 .messagesdiv {
     min-height: 482px;
     max-height: 482px; 
-    width: 980px;
-    min-width: 500px;
+    width: auto;
     background-color: #f4f0f0;
     overflow-y: scroll;
     display: flex;
@@ -165,7 +172,7 @@
 
 <script>
     $(document).ready(function(){
-        $("#close-chat-tab").dblclick(function(){
+        $("#x-cross").click(function(){
             $("#close-chat-tab").hide()
         })
     })

@@ -5,78 +5,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate,login,logout
 
-
-
 # Create your views here.
 
 def Home_page(request):
     return render(request,"Home.html")
 
-
-# room message view
-def Public_Room_page(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        room = request.POST['room_name']
-
-        try:
-            get_room = Room.objects.get(room_name=room)
-            return redirect(MessageView,room_name=room,username=username)
-        except Room.DoesNotExist:
-            new_room = Room(room_name=room)
-            new_room.save()
-
-        return redirect('MessageView',room_name=room,username=username)
-
-    return render(request,"Public_Room.html")
-
-def MessageView(request,room_name,username):
-    get_room = Room.objects.get(room_name=room_name)
-    get_messages = Message.objects.filter(room=get_room)
-
-    context = {
-        "messages": get_messages,
-        "user": username,
-        "room_name": room_name,
-
-    }
-    return render(request,"Message.html",context)
-#end room message view
-
-#page views
-def Chat_Page(request,*args,**kwargs):
-
-    try:
-        users = User.objects.exclude(username = request.user.username)
-        userdata = User_details.objects.get(user_name=request.user.username)
-        # usersdata = User_details.objects.get
-    except User_details.DoesNotExist:
-        userdata = User_details.objects.get(user_name='default')
-    return render(request,"one_to_one/Chat.html", {'users':users,'userdata':userdata} )
-
-
-#one to one message
-def One_message(request,username):
-    users = User.objects.exclude(username = request.user.username)
-    user_obj = User.objects.get(username = username)
-    
-    try:
-        userpro =User_details.objects.get(user_name=username)
-    except User_details.DoesNotExist:
-        userpro = User_details.objects.get(user_name="default")
-
-    if request.user.id > user_obj.id:
-        thread_name = f'chat_{request.user.id}-{user_obj.id}'
-        print('if thread_name :',thread_name)
-    else:
-        thread_name = f'chat_{user_obj.id}-{request.user.id}'
-        print('Else thread_name :',thread_name)
-    message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
-    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':user_obj,'messages_': message_objs,'userpro':userpro})
-
-
-
-#login sign up
+#login sign up pages
 def Sign_Up(request):
     return render(request,"SignUp.html")
 
@@ -124,11 +58,99 @@ def user_login(request):
             return redirect(login_page)
         
 
-
+# logout view
 def logout_view(request):
     logout(request)
     messages.error(request,"Logout done")
     return redirect(Home_page)
+
+
+
+
+# room message view
+def Public_Room_page(request):
+
+    try:
+        userdata = User_details.objects.get(user_name=request.user.username)
+    except User_details.DoesNotExist:
+        userdata = User_details.objects.get(user_name="default")
+
+
+    if request.method == "POST":
+        username = request.POST['username']
+        room = request.POST['room_name']
+
+        try:
+            get_room = Room.objects.get(room_name=room)
+            return redirect(MessageView,room_name=room,username=username)
+        except Room.DoesNotExist:
+            new_room = Room(room_name=room)
+            new_room.save()
+
+        return redirect('MessageView',room_name=room,username=username)
+
+    return render(request,"Public_Room.html",{'userdata':userdata})
+
+def MessageView(request,room_name,username):
+    get_room = Room.objects.get(room_name=room_name)
+    get_messages = Message.objects.filter(room=get_room)
+
+    context = {
+        "messages": get_messages,
+        "user": username,
+        "room_name": room_name,
+
+    }
+    return render(request,"Message.html",context)
+#end room message view
+
+
+
+# Main page views 
+def Chat_Page(request,*args,**kwargs):
+
+    try:
+        users = User.objects.exclude(username = request.user.username)
+        userdata = User_details.objects.get(user_name=request.user.username)
+
+        #Getting user profile images
+        users_data = []
+        for user in users:
+            try:
+                user_img = User_details.objects.get(user_name=user)
+            except User_details.DoesNotExist:
+                user_img = User_details.objects.get(user_name='default')
+        
+    except User_details.DoesNotExist:
+        userdata = User_details.objects.get(user_name='default')
+    return render(request,"one_to_one/Chat.html", {'users':users,'userdata':userdata} )
+
+
+
+#one to one message view
+def One_message(request,username):
+    users = User.objects.exclude(username = request.user.username)
+    user_obj = User.objects.get(username = username)
+    
+
+    try:
+        userpro =User_details.objects.get(user_name=username)
+        userdata = User_details.objects.get(user_name=request.user.username)
+    except User_details.DoesNotExist:
+        userpro = User_details.objects.get(user_name="default")
+        userdata = User_details.objects.get(user_name="default")
+
+    if request.user.id > user_obj.id:
+        thread_name = f'chat_{request.user.id}-{user_obj.id}'
+        print('if thread_name :',thread_name)
+    else:
+        thread_name = f'chat_{user_obj.id}-{request.user.id}'
+        print('Else thread_name :',thread_name)
+    message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
+    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':user_obj,'messages_': message_objs,'userpro':userpro,'userdata':userdata})
+
+
+
 
 # profile section 
 def Profile_Page(request):
