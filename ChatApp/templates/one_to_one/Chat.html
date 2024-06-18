@@ -273,9 +273,9 @@
                 {% if userdata %}
                 <img class="object-cover w-8 h-8 rounded-full"
                   src="{{userdata.profile_image.url}}"
-                  alt="" aria-hidden="true" />
+                  alt="Profile images" aria-hidden="true" />
                 {% endif %}
-              </button>
+              </button> 
               <template x-if="isProfileMenuOpen">
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
@@ -319,7 +319,7 @@
               <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
                 <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                   <img class="object-cover w-full h-full rounded-full" 
-                  src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjE3Nzg0fQ" alt="" loading="lazy">
+                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="" loading="lazy">
                   <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                 </div>
                 <div>
@@ -339,9 +339,10 @@
             
              
           </div>
+          {% block content %}
           <!-- users div  -->
 
-          {% block content %}
+          
 
           <!-- welcome div  -->
 

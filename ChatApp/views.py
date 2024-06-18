@@ -45,9 +45,13 @@ def MessageView(request,room_name,username):
 
 #page views
 def Chat_Page(request,*args,**kwargs):
-    users = User.objects.exclude(username = request.user.username)
-    currentuserid = User.objects.get(username=request.user.username)
-    userdata = User_details.objects.get(user_name=currentuserid.id)
+
+    try:
+        users = User.objects.exclude(username = request.user.username)
+        userdata = User_details.objects.get(user_name=request.user.username)
+        # usersdata = User_details.objects.get
+    except User_details.DoesNotExist:
+        userdata = User_details.objects.get(user_name='default')
     return render(request,"one_to_one/Chat.html", {'users':users,'userdata':userdata} )
 
 
@@ -56,8 +60,10 @@ def One_message(request,username):
     users = User.objects.exclude(username = request.user.username)
     user_obj = User.objects.get(username = username)
     
-    print("users :",users)
-    print("user_obj :",user_obj)
+    try:
+        userpro =User_details.objects.get(user_name=username)
+    except User_details.DoesNotExist:
+        userpro = User_details.objects.get(user_name="default")
 
     if request.user.id > user_obj.id:
         thread_name = f'chat_{request.user.id}-{user_obj.id}'
@@ -66,7 +72,7 @@ def One_message(request,username):
         thread_name = f'chat_{user_obj.id}-{request.user.id}'
         print('Else thread_name :',thread_name)
     message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
-    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':user_obj,'messages_': message_objs})
+    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':user_obj,'messages_': message_objs,'userpro':userpro})
 
 
 
@@ -128,12 +134,11 @@ def logout_view(request):
 def Profile_Page(request):
     try:
         data = User.objects.get(username=request.session['Username'])
-        user_id = data.id
-        userdata = User_details.objects.get(user_name=user_id)
-        print(data)
-        return render(request,"Profile.html",{'data':data,'userdata':userdata})
-    except KeyError:
-        return redirect(Home_page)
+        userdata = User_details.objects.get(user_name=request.session['Username'])
+        
+    except User_details.DoesNotExist:
+        userdata = User_details.objects.get(user_name="default")
+    return render(request,"Profile.html",{'data':data,'userdata':userdata})   
 
 
 
