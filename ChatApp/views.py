@@ -114,30 +114,51 @@ def MessageView(request,room_name,username):
 
 # Main page views 
 def Chat_Page(request,*args,**kwargs):
-
+    
+    print(request.user.username)
     try:
         users = User.objects.exclude(Q(username = request.user.username)| Q(username='default'))
         userdata = User_details.objects.get(user_name = request.user.username)
 
         #Getting user profile images
         users_data = []
+        
         for user in users:
+            print(user)
             try:
                 user_img = User_details.objects.get(user_name=user)
             except User_details.DoesNotExist:
+                print(f"User details for {user.username} not found, using default.")
                 user_img = User_details.objects.get(user_name='default')
+            users_data.append({
+                'user':user,
+                'user_img':user_img
+            })
         
     except User_details.DoesNotExist:
         userdata = User_details.objects.get(user_name='default')
-    return render(request,"one_to_one/Chat.html", {'users':users,'userdata':userdata} )
+        users_data =[]
+    print('chat page view ',users_data)
+    return render(request,"one_to_one/Chat.html", {'userdata':userdata,'users_data':users_data} )
 
 
 
 #one to one message view
 def One_message(request,username):
-    users = User.objects.exclude(username = request.user.username)
+    users = User.objects.exclude(Q(username = request.user.username)| Q(username='default'))
     user_obj = User.objects.get(username = username)
     
+    #Getting user profile images
+    users_data = []
+    for user in users:
+        try:
+            user_img = User_details.objects.get(user_name=user)
+        except User_details.DoesNotExist:
+            user_img = User_details.objects.get(user_name='default')
+        users_data.append({
+            'user':user,
+            'user_img':user_img
+        })
 
     try:
         userpro =User_details.objects.get(user_name=username)
@@ -153,7 +174,18 @@ def One_message(request,username):
         thread_name = f'chat_{user_obj.id}-{request.user.id}'
         print('Else thread_name :',thread_name)
     message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
-    return render(request,"one_to_one/One_to_one_message.html",{'users':users,'frnd':user_obj,'messages_': message_objs,'userpro':userpro,'userdata':userdata})
+
+    context ={
+        'users':users,
+        'frnd':user_obj,
+        'messages_data': message_objs,
+        'userpro':userpro,
+        'userdata':userdata,
+        'users_data':users_data
+
+    }
+
+    return render(request,"one_to_one/One_to_one_message.html",context)
 
 
 
@@ -168,5 +200,10 @@ def Profile_Page(request):
         userdata = User_details.objects.get(user_name="default")
     return render(request,"Profile.html",{'data':data,'userdata':userdata})   
 
+#Delete Account
 
+def DeleteAccount(request):
+    x = User.objects.filter(username=request.session['Username'])
+    x.delete()
+    return redirect(Home_page)
 

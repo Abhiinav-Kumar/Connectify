@@ -23,7 +23,7 @@
         </div>
         <div  class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
 
-            {% for message in messages_ %}
+            {% for message in messages_data %}
                 {% if message.sender != request.user.username %}
                     <div class="row message-body">
                         <div class="message-container receiver">

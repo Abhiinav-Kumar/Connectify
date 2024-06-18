@@ -270,19 +270,20 @@
                 type="search" placeholder="Search for find friends" id="Search" />
             </div>
             
-            {% for x in users %}
-            <a href="{% url 'One_message' username=x.username  %}">
+            {% for data in users_data %}
+            <a href="{% url 'One_message' username=data.user.username  %}">
               <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
                 <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+
                   <img class="object-cover w-full h-full rounded-full" 
-                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="" loading="lazy">
+                  src="{{data.user_img.profile_image.url}}" alt="" loading="lazy">
                   <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                 </div>
                 <div>
                   
                   
                     <p style="text-transform: capitalize;" class=" font-semibold text-gray-700 dark:text-gray-200">
-                      {{x.username}}
+                      {{data.user.username}}
                     </p>
                 
                 </div>
