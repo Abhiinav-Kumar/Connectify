@@ -44,7 +44,7 @@
 
   {% if messages %}
   {% for message in messages %}
-  <div class="alert-messages {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+  <div  class="alert-messages {% if message.tags %}alert-{{ message.tags }}{% endif %}">
     {{ message }} <i class="fa-solid fa-exclamation"></i>
   </div>
   {% endfor %}
@@ -144,10 +144,10 @@
 
   <script>
     function signup_function() {
-      email = document.signup_form.EMAIL.value;
-      user = document.signup_form.USERNAME.value;
-      password = document.signup_form.PASSWORD.value;
-      confirm_password = document.signup_form.CPASSWORD.value;
+      email = document.signup_form.email.value;
+      user = document.signup_form.username.value;
+      password = document.signup_form.password1.value;
+      confirm_password = document.signup_form.password2.value;
 
       if (email == null || email == "") {
         alert("Email field can't be empty");
