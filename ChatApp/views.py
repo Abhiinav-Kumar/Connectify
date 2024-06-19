@@ -204,8 +204,17 @@ def Profile_Page(request):
 #Delete Account
 @login_required
 def DeleteAccount(request):
-    x = User.objects.filter(username=request.session['Username'])
-    x.delete()
-    messages.error(request,"Account Deleted")
-    return redirect(Home_page)
+    if request.method == "POST":
+        Apass = request.POST.get('acc-password')
+        Auser = request.POST.get('acc-username')
+
+        user = authenticate(username=Auser, password=Apass)
+        if user is not None:
+            user.delete()
+            messages.error(request,"Account Deleted")
+            return redirect('Home_page')  
+        else:
+            messages.warning(request,"wrong password ")
+            return redirect('Profile_Page')  
+        
 
