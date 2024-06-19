@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.db.models import Q
+from django.core.files.storage import FileSystemStorage
+from django.utils.datastructures import MultiValueDictKeyError
 # Create your views here.
 
 def Home_page(request):
@@ -71,12 +73,16 @@ def logout_view(request):
 
 
 # room message view
+@login_required
 def Public_Room_page(request):
 
+    # getting user image for navbar
+    current_user_id = request.user.id
     try:
-        userdata = User_details.objects.get(user_name=request.user.username)
+        userdata = User_details.objects.get(user_id_id = current_user_id)
     except User_details.DoesNotExist:
         userdata = User_details.objects.get(user_name="default")
+
 
 
     if request.method == "POST":
@@ -94,10 +100,13 @@ def Public_Room_page(request):
 
     return render(request,"Public_Room.html",{'userdata':userdata})
 
+@login_required
 def MessageView(request,room_name,username):
 
+    # getting user image for navbar
+    current_user_id = request.user.id
     try:
-        userdata = User_details.objects.get(user_name=request.user.username)
+        userdata = User_details.objects.get(user_id_id = current_user_id)
     except User_details.DoesNotExist:
         userdata = User_details.objects.get(user_name="default")
 
@@ -115,19 +124,21 @@ def MessageView(request,room_name,username):
 
 
 
-# Main page views 
+# Chat page views 
+@login_required
 def Chat_Page(request,*args,**kwargs):
-    
-    users = User.objects.exclude(Q(username = request.user.username)| Q(username='default'))
+    current_user_id = request.user.id
+    # print("Current user id :",current_user_id)
+    users = User.objects.exclude(Q(id = current_user_id)| Q(username='default'))
     try:
-        userdata = User_details.objects.get(user_name = request.user.username)
+        userdata = User_details.objects.get(user_id_id = current_user_id)
 
         #Getting users profile images
         users_data = []
         
         for user in users:
             try:
-                user_img = User_details.objects.get(user_name=user.username)
+                user_img = User_details.objects.get(user_id_id = user.id )
             except User_details.DoesNotExist:
                 user_img = User_details.objects.get(user_name='default')
             users_data.append({
@@ -144,15 +155,18 @@ def Chat_Page(request,*args,**kwargs):
 
 
 #one to one message view
-def One_message(request,username):
-    users = User.objects.exclude(Q(username = request.user.username)| Q(username='default'))
+@login_required
+def One_message(request,username,userid):
+
+    current_user_id = request.user.id
+    users = User.objects.exclude(Q( id = current_user_id)| Q(username='default'))
     user_obj = User.objects.get(username = username)
     
-    #Getting user profile images
+    #Getting user profile images for users tab
     users_data = []
     for user in users:
         try:
-            user_img = User_details.objects.get(user_name=user)
+            user_img = User_details.objects.get(user_id_id = user.id)
         except User_details.DoesNotExist:
             user_img = User_details.objects.get(user_name='default')
         users_data.append({
@@ -160,9 +174,10 @@ def One_message(request,username):
             'user_img':user_img
         })
 
+    # getting image for chat tab
     try:
-        userpro =User_details.objects.get(user_name=username)
-        userdata = User_details.objects.get(user_name=request.user.username)
+        userpro =User_details.objects.get(user_id_id=userid)
+        userdata = User_details.objects.get(user_id_id = current_user_id)
     except User_details.DoesNotExist:
         userdata = User_details.objects.get(user_name="default")
         userpro = User_details.objects.get(user_name="default")
@@ -193,10 +208,12 @@ def One_message(request,username):
 
 
 # profile section 
+@login_required
 def Profile_Page(request):
+    current_user_id = request.user.id
     try:
-        data = User.objects.get(username=request.session['Username'])
-        userdata = User_details.objects.get(user_name=request.session['Username'])
+        data = User.objects.get(id=current_user_id)
+        userdata = User_details.objects.get(user_id_id =current_user_id)
         
     except User.DoesNotExist:
         return redirect(Home_page)
@@ -204,12 +221,27 @@ def Profile_Page(request):
 
 
 # profile Updation
+@login_required
 def Profile_updation(request,user_id):
     
     data = User.objects.get(id=user_id)
     userdata = User_details.objects.get(user_id_id=user_id)
     return render(request,"profile/Profile_update.html",{'userdata':userdata,'data':data})
 
+@login_required
+def Profile_update(request,userid):
+    if request.method == "POST":
+        EM = request.POST.get('email')
+        BIO = request.POST.get('bio')
+        try:
+            PROIMG = request.FILES['profile-image']
+            fs = FileSystemStorage()
+            file = fs.save(PROIMG.name,PROIMG)
+        except MultiValueDictKeyError:
+            file = User_details.objects.get(user_id_id =userid).profile_image
+        User_details.objects.filter(user_id_id=userid).update(Bio=BIO,profile_image=file)
+        User.objects.filter(id=userid).update(email=EM)
+        return redirect(Profile_Page)
 
 #Delete Account
 @login_required

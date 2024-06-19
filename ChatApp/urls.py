@@ -7,7 +7,7 @@ urlpatterns = [
 
     # one 2 one
     path('Chat_Page/',views.Chat_Page,name='Chat_Page'),
-    path('<str:username>',views.One_message,name='One_message'),
+    path('<str:username>/<int:userid>',views.One_message,name='One_message'),
 
     # User Registration login logout
     path('Sign_Up/',views.Sign_Up,name='Sign_Up'),
@@ -24,6 +24,7 @@ urlpatterns = [
     #profile
     path('Profile_Page/',views.Profile_Page,name='Profile_Page'),
     path('Profile_updation/<int:user_id>/',views.Profile_updation,name='Profile_updation'),
+    path('Profile_update/<int:userid>/',views.Profile_update,name='Profile_update'),
 
     
     #Delete Acc

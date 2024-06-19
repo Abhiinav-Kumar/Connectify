@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# login required
+LOGIN_URL = '/accounts/login/'
 
 
 # Application definition
