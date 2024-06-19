@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from ChatApp.models import Room,Message,ChatModelPvt,User_details
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from django.db.models import Q
 # Create your views here.
@@ -202,8 +202,10 @@ def Profile_Page(request):
 
 
 #Delete Account
+@login_required
 def DeleteAccount(request):
     x = User.objects.filter(username=request.session['Username'])
     x.delete()
+    messages.error(request,"Account Deleted")
     return redirect(Home_page)
 
