@@ -23,6 +23,8 @@ urlpatterns = [
 
     #profile
     path('Profile_Page/',views.Profile_Page,name='Profile_Page'),
+    path('Profile_updation/<int:user_id>/',views.Profile_updation,name='Profile_updation'),
+
     
     #Delete Acc
     path('DeleteAccount/',views.DeleteAccount,name='DeleteAccount')

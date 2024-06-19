@@ -53,6 +53,7 @@ def user_login(request):
             login(request, user)
             request.session['Username']=USERNAME
             request.session['Password']=PASSWORD
+            
             messages.success(request,"Successfully logged in")
             return redirect(Chat_Page)
         else:
@@ -165,6 +166,7 @@ def One_message(request,username):
     except User_details.DoesNotExist:
         userdata = User_details.objects.get(user_name="default")
         userpro = User_details.objects.get(user_name="default")
+    
         
 
     if request.user.id > user_obj.id:
@@ -198,7 +200,15 @@ def Profile_Page(request):
         
     except User.DoesNotExist:
         return redirect(Home_page)
-    return render(request,"Profile.html",{'data':data,'userdata':userdata})   
+    return render(request,"profile/Profile.html",{'data':data,'userdata':userdata})   
+
+
+# profile Updation
+def Profile_updation(request,user_id):
+    
+    data = User.objects.get(id=user_id)
+    userdata = User_details.objects.get(user_id_id=user_id)
+    return render(request,"profile/Profile_update.html",{'userdata':userdata,'data':data})
 
 
 #Delete Account
