@@ -221,22 +221,22 @@
 
       <!--        main page-->
       <main class="h-full overflow-y-auto profile-card">
-        <div class="card-container">
+        <div class="card-container dark:bg-gray-800">
           {% if userdata %}
           <a href="{% url 'logout_view' %}"><span title="Log out" class="pro"><i class="fa-solid fa-right-from-bracket"></i></span></a>
           <img class="round" src="{{ userdata.profile_image.url }}" alt="user" />
           
           {% if request.session.Username %}
-          <h6 class="font-semibold">{{request.session.Username}}</h6>
+          <h6 style="margin-top: 10px;" class="font-semibold   dark:text-gray-200">{{request.session.Username}}</h6>
           {% endif %}
 
           {% if data %}
-          <h3>{{data.email}}</h3>
+          <h4 style="padding-top: 15px;" class="font-semibold dark:text-gray-200">{{data.email}}</h4>
           {% endif %}
-          <p>{{userdata.Bio}}</p>
+          <p style="margin-top: 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="font-semibold dark:text-gray-200">{{userdata.Bio}}</p>
           {% endif %}
 
-          <div class="buttons">
+          <div class="buttons dark:bg-gray-800">
             <a href="#">
               <button class="primary px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                 Update
@@ -361,15 +361,13 @@ p {
 }
 
 .card-container {
-	/* background-color: #231E39; */
   background-color: white;
 	border-radius: 5px;
-	/* box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75); */
 	padding-top: 30px;
 	position: relative;
 	width: 460px;
 	text-align: center;
-  max-height: 800px;
+  max-height: 750px;
   box-shadow: 0 2px 15px black;
 
 }

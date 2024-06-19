@@ -12,7 +12,7 @@
     <div class="main-chat-container" id="close-chat-tab">
         <div class="selected-user" style="background-color: #7e3af2; border-bottom: 2px solid #7e3af2;border-radius: 8px;">
             <span style="text-transform: capitalize; padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}
-                <i id="x-cross" style="float: right; margin-top: 22px; margin-right: 20px;" title="Click to Close the tab" class="fa-solid fa-xmark"></i> 
+                <i id="x-cross"  title="Click to Close the tab" class="fa-solid fa-xmark"></i> 
                 <div style="margin-top: -50px;margin-left: 10px;" class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                     {% if userpro %}
                     <img class="object-cover w-full h-full rounded-full" 
@@ -165,6 +165,17 @@
     
 }
 
+#x-cross{
+    float: right;
+    margin-top: 22px;
+    margin-right: 20px;
+    color: rgba(255, 255, 255, 0.81);
+    cursor: pointer;
+}
+
+#x-cross:hover{
+    color: black;
+}
 
 </style>
 
