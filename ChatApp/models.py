@@ -43,14 +43,14 @@ class ChatModelPvt(models.Model):
 class User_details(models.Model):
     user_id = models.OneToOneField(User,on_delete=models.CASCADE,default=0)
     user_name = models.CharField(max_length=150, unique=True)
-    profile_image = models.ImageField(upload_to="Profile_Images",null=True,blank=True,default="logo/Connectify.png")
-    Bio = models.CharField(max_length=50,null=True,blank=True)
+    profile_image = models.ImageField(upload_to="Profile_Images",null=True,blank=True,default="logo/default.png")
+    Bio = models.CharField(max_length=50,null=True,blank=True,default="Connectify")
 
-    def __str__(self):
-        return self.user_name
+    # def __str__(self):
+    #     return self.user_name
 
-    def get_user(self):
-        return User.objects.get(username=self.user_name)
+    # def get_user(self):
+    #     return User.objects.get(username=self.user_name)
     
 
 

@@ -38,6 +38,8 @@ def User_signup(request):
             user = User.objects.create_user(username=USERNAME,email=EMAIL,password=PASSWORD)
             user.save()
             messages.success(request,'Account Created')
+            user_details = User_details(user_name=USERNAME,user_id_id = user.id)
+            user_details.save()
         return redirect(login_page)
     
 #login views
@@ -115,20 +117,17 @@ def MessageView(request,room_name,username):
 # Main page views 
 def Chat_Page(request,*args,**kwargs):
     
-    print(request.user.username)
+    users = User.objects.exclude(Q(username = request.user.username)| Q(username='default'))
     try:
-        users = User.objects.exclude(Q(username = request.user.username)| Q(username='default'))
         userdata = User_details.objects.get(user_name = request.user.username)
 
-        #Getting user profile images
+        #Getting users profile images
         users_data = []
         
         for user in users:
-            print(user)
             try:
-                user_img = User_details.objects.get(user_name=user)
+                user_img = User_details.objects.get(user_name=user.username)
             except User_details.DoesNotExist:
-                print(f"User details for {user.username} not found, using default.")
                 user_img = User_details.objects.get(user_name='default')
             users_data.append({
                 'user':user,
@@ -138,7 +137,7 @@ def Chat_Page(request,*args,**kwargs):
     except User_details.DoesNotExist:
         userdata = User_details.objects.get(user_name='default')
         users_data =[]
-    print('chat page view ',users_data)
+    
     return render(request,"one_to_one/Chat.html", {'userdata':userdata,'users_data':users_data} )
 
 
@@ -164,8 +163,9 @@ def One_message(request,username):
         userpro =User_details.objects.get(user_name=username)
         userdata = User_details.objects.get(user_name=request.user.username)
     except User_details.DoesNotExist:
-        userpro = User_details.objects.get(user_name="default")
         userdata = User_details.objects.get(user_name="default")
+        userpro = User_details.objects.get(user_name="default")
+        
 
     if request.user.id > user_obj.id:
         thread_name = f'chat_{request.user.id}-{user_obj.id}'
@@ -196,12 +196,12 @@ def Profile_Page(request):
         data = User.objects.get(username=request.session['Username'])
         userdata = User_details.objects.get(user_name=request.session['Username'])
         
-    except User_details.DoesNotExist:
-        userdata = User_details.objects.get(user_name="default")
+    except User.DoesNotExist:
+        return redirect(Home_page)
     return render(request,"Profile.html",{'data':data,'userdata':userdata})   
 
-#Delete Account
 
+#Delete Account
 def DeleteAccount(request):
     x = User.objects.filter(username=request.session['Username'])
     x.delete()
