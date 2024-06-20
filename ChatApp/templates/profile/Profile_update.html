@@ -226,7 +226,9 @@
           
         <div class="card-container dark:bg-gray-800">
           {% if userdata %}
+          <a href="{% url 'Profile_Page' %}"><span title="Close" class="pro"><i class="fa-solid fa-xmark"></i></span></a>
           <img class="round" src="{{ userdata.profile_image.url }}" alt="user" />
+          <div class="cam-div"><input type="file" name="profile-image"><i class="fa-solid fa-camera" style="color: white;"></i></div>
           {% endif %}
           
           <label class="block text-sm">
@@ -248,10 +250,11 @@
           <label class="block text-sm">
             <span class="title text-gray-700 dark:text-gray-400">Password</span>
             <div class="relative text-gray-500 focus-within:text-purple-600">
-              <input class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="*********"
+              <input class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" value="*********"
               readonly
               type="password">
-              <button style="margin-top: 23px; height: 38px;" class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none ">
+              <button style="margin-top: 23px; height: 38px;" class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none "
+              disabled>
                 Click
               </button>
             </div>
@@ -266,16 +269,17 @@
             name="bio">
           </label>
 
-          <label class="block text-sm">
+          <!-- <label class="block text-sm">
             <span class="title text-gray-700 dark:text-gray-400">Profile Image</span>
             <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe"
             type="file"
-            name="profile-image">
-          </label>
+            accept="images/*"
+            >
+          </label> -->
 
           <button class="primary px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
           type="submit">
-            Update
+            Save
           </button>
 
         </div>
@@ -313,7 +317,41 @@
 }
 
 
+.cam-div{
+  position: absolute;
+  background-color:#7e3af2;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  line-height: 33px;
+  text-align: center;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-left: 264px;
+  margin-top: -37px;
+}
 
+.cam-div input[type='file']{
+  position: absolute;
+  opacity: 0;
+}
+
+input[type=file]::-webkit-file-upload-button{
+  cursor: pointer;
+}
+
+.card-container .pro {
+	color: #231E39;
+	background-color: #FEBB0B;
+	border-radius: 3px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 3px 7px;
+	position: absolute;
+	top: 30px;
+	left: auto;
+  right: 30px;
+}
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
