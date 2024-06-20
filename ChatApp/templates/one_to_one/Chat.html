@@ -285,7 +285,7 @@
                 <div>
                   
                   
-                    <p style="text-transform: capitalize;" class=" font-semibold text-gray-700 dark:text-gray-200">
+                    <p  class=" font-semibold text-gray-700 dark:text-gray-200">
                       {{data.user.username}}
                     </p>
                 
@@ -309,8 +309,8 @@
 
           <div class=" bg-white rounded-lg shadow-xs dark:bg-gray-800 welcomediv">
           
-              {% if request.session.Username %}
-              <h1 style= "text-transform: capitalize; padding-top: 100px;" class="Intro-title font-semibold">Hello, {{request.session.Username}}</h1>
+              {% if loginedUser %}
+              <h1 style= "padding-top: 100px;" class="Intro-title font-semibold">Hello, {{loginedUser.username}}</h1>
               <h4 class="quotes dark:text-gray-200">'Building Bridges through Conversation.'</h4>
 
                {% endif %}

@@ -81,29 +81,29 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
             data = json.loads(text_data)
             print(data)
             message = data['message']
-            username = data['username']
-            receiver = data['receiver']
-            print(f"data after extract receive function :",message,username,receiver)
+            user_id = data['userId']
+            receiver_id = data['receiverId']
+            print(f"data after extract receive function :",message,user_id,receiver_id)
             
-            await self.save_message(username,self.room_group_name,message,receiver)
+            await self.save_message(user_id,self.room_group_name,message,receiver_id)
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
                     'type':'chat_message',
                     'message':message,
-                    'username':username
+                    'userId':user_id
                 }
             ) 
         
         async def chat_message(self,event):
             message = event['message']
-            username = event['username']
+            user_id = event['userId']
 
-            print("Chat message function :",message, username)
+            print("Chat message function :",message, user_id)
 
             await self.send(text_data=json.dumps({
                 'message':message,
-                'username':username
+                'userId':user_id
             }))
 
 
@@ -114,9 +114,10 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
         )
             
         @database_sync_to_async
-        def save_message(self,username,thread_name,message,receiver):
+        def save_message(self,sender_id,thread_name,message,receiver_id):
             chat_obj = ChatModelPvt.objects.create(
-                sender=username,
+                sender=sender_id,
+                
                 message=message,
                 thread_name=thread_name)
             return chat_obj

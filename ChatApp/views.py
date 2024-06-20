@@ -128,6 +128,8 @@ def MessageView(request,room_name,username):
 @login_required
 def Chat_Page(request,*args,**kwargs):
     current_user_id = request.user.id
+
+    loginedUser = User.objects.get(id=current_user_id)
     # print("Current user id :",current_user_id)
     users = User.objects.exclude(Q(id = current_user_id)| Q(username='default'))
     try:
@@ -150,7 +152,7 @@ def Chat_Page(request,*args,**kwargs):
         userdata = User_details.objects.get(user_name='default')
         users_data =[]
     
-    return render(request,"one_to_one/Chat.html", {'userdata':userdata,'users_data':users_data} )
+    return render(request,"one_to_one/Chat.html", {'userdata':userdata,'users_data':users_data,'loginedUser':loginedUser} )
 
 
 
@@ -160,7 +162,10 @@ def One_message(request,username,userid):
 
     current_user_id = request.user.id
     users = User.objects.exclude(Q( id = current_user_id)| Q(username='default'))
-    user_obj = User.objects.get(username = username)
+    try:
+        user_obj = User.objects.get(username = username)
+    except User.DoesNotExist:
+        return redirect(Chat_Page)
     
     #Getting user profile images for users tab
     users_data = []
@@ -183,13 +188,14 @@ def One_message(request,username,userid):
         userpro = User_details.objects.get(user_name="default")
     
         
-
+    # Determine the thread_name based on user IDs to fetch messages
     if request.user.id > user_obj.id:
         thread_name = f'chat_{request.user.id}-{user_obj.id}'
         print('if thread_name :',thread_name)
     else:
         thread_name = f'chat_{user_obj.id}-{request.user.id}'
         print('Else thread_name :',thread_name)
+
     message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
 
     context ={
@@ -231,6 +237,7 @@ def Profile_updation(request,user_id):
 @login_required
 def Profile_update(request,userid):
     if request.method == "POST":
+        US = request.POST.get('username')
         EM = request.POST.get('email')
         BIO = request.POST.get('bio')
         try:
@@ -240,7 +247,7 @@ def Profile_update(request,userid):
         except MultiValueDictKeyError:
             file = User_details.objects.get(user_id_id =userid).profile_image
         User_details.objects.filter(user_id_id=userid).update(Bio=BIO,profile_image=file)
-        User.objects.filter(id=userid).update(email=EM)
+        User.objects.filter(id=userid).update(email=EM,username=US)
         return redirect(Profile_Page)
 
 #Delete Account

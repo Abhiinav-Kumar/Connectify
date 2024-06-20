@@ -228,11 +228,11 @@
           <a href="{% url 'logout_view' %}"><span title="Log out" class="pro"><i class="fa-solid fa-right-from-bracket"></i></span></a>
           <img class="round" src="{{ userdata.profile_image.url }}" alt="user" />
           
-          {% if request.session.Username %}
-          <h6 style="margin-top: 10px;" class="font-semibold   dark:text-gray-200">{{request.session.Username}}</h6>
-          {% endif %}
-
           {% if data %}
+          <h6 style="margin-top: 10px;" class="font-semibold   dark:text-gray-200">{{data.username}}</h6>
+          
+
+          
           <h4 style="padding-top: 15px;" class="font-semibold dark:text-gray-200">{{data.email}}</h4>
           
           <p style="margin-top: 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;" class="font-semibold dark:text-gray-200">{{userdata.Bio}}</p>
@@ -352,7 +352,7 @@ h3 {
 
 h6 {
 	margin: 5px 0;
-	text-transform: uppercase;
+	
 }
 
 p {

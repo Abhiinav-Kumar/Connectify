@@ -11,7 +11,7 @@
     {% block content %}
     <div class="main-chat-container" id="close-chat-tab">
         <div class="selected-user" style="background-color: #7e3af2; border-bottom: 2px solid #7e3af2;border-radius: 8px;">
-            <span style="text-transform: capitalize; padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}
+            <span style=" padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}
                 <i id="x-cross"  title="Click to Close the tab" class="fa-solid fa-xmark"></i> 
                 <div style="margin-top: -50px;margin-left: 10px;" class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                     {% if userpro %}
@@ -24,11 +24,11 @@
         <div  class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
 
             {% for message in messages_data %}
-                {% if message.sender != request.user.username %}
+                {% if message.sender != request.user.id %}
                     <div class="row message-body">
                         <div class="message-container receiver">
                             <div class="message-text">
-                                {{message.message}} 
+                                {{message.message}}
                             </div>
                             <span class="message-time pull-right">
                                 {{message.timestamp|time:'H:i'}}
@@ -97,6 +97,7 @@
     background: #ffffff;
     border-radius: 10px 10px 10px 0;
     text-align: left;
+    
 }
 
 .sender {
@@ -189,17 +190,17 @@
     })
 </script>
 
-{{user.id|json_script:"json-username"}}
-{{request.user.username|json_script:"json-message-username"}}
+{{user.id|json_script:"json-id"}}
+{{request.user.id|json_script:"json-message-id"}}
 {{frnd.id|json_script:"json-id-receiver"}}
 
 <script>
-    const id = JSON.parse(document.getElementById('json-username').textContent);
-    const message_username = JSON.parse(document.getElementById('json-message-username').textContent);
+    const userId = JSON.parse(document.getElementById('json-id').textContent);
+    const messageUserId= JSON.parse(document.getElementById('json-message-id').textContent);
     const receiver = JSON.parse(document.getElementById('json-id-receiver').textContent);
     
-    console.log('Const id',id)
-    console.log('Const id',message_username)
+    console.log('Const id',userId)
+    console.log('Const id message',messageUserId)
     console.log('Const id receiver',receiver)
 
     const socket = new WebSocket(
@@ -235,17 +236,16 @@
         const timestamp = `${hours}:${minutes}`;
 
 
-        console.log('finding user :',data.username);
-        console.log('message :',data.message)
-        console.log("another userr",message_username)
+        console.log('finding user:', data.userId);
+        console.log('message:', data.message);
+        console.log("another user:", messageUserId);
 
-        console.log("time :",now)
-        console.log("hours :",hours)
-        console.log("minutes :",minutes)
+        console.log("time:", now);
+        console.log("hours:", hours);
+        console.log("minutes:", minutes);
 
 
-
-        if (data.username === message_username) {
+        if (data.userId === messageUserId) {
             document.querySelector('#chat-body').innerHTML += `
             <div class="row message-body">
                 <div class="message-container sender">
@@ -288,12 +288,12 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
     const message_input = document.querySelector('#message_input');
     const message = message_input.value;
     console.log('Sending :',message);
-    console.log('sending user:',message_username)
+    console.log('sending user ID:',messageUserId)
 
     socket.send(JSON.stringify({
         'message': message,
-        'username': message_username,
-        'receiver':receiver
+        'userId': messageUserId,
+        'receiverId':receiver
     }));
 
     message_input.value = '';
