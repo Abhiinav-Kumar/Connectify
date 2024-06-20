@@ -117,7 +117,7 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
         def save_message(self,sender_id,thread_name,message,receiver_id):
             chat_obj = ChatModelPvt.objects.create(
                 sender=sender_id,
-                
+            
                 message=message,
                 thread_name=thread_name)
             return chat_obj
