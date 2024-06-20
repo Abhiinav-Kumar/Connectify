@@ -240,6 +240,15 @@ def Profile_update(request,userid):
         US = request.POST.get('username')
         EM = request.POST.get('email')
         BIO = request.POST.get('bio')
+
+        existing_user = User.objects.filter(Q(username=US) | Q(email=EM)).exclude(id=userid).exists()
+
+        if existing_user:
+            messages.warning(request, "Username or email already exists. Please choose another.")
+            data = User.objects.get(id=userid)
+            userdata = User_details.objects.get(user_id_id=userid)
+            return render(request, 'profile/Profile_update.html',{'userdata':userdata,'data':data})
+         
         try:
             PROIMG = request.FILES['profile-image']
             fs = FileSystemStorage()
@@ -266,4 +275,5 @@ def DeleteAccount(request):
             messages.warning(request,"wrong password ")
             return redirect('Profile_Page')  
         
+
 

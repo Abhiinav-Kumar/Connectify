@@ -8,19 +8,45 @@
     <title>Document</title>
 </head>
 <body>
+
+        
+
+
     {% block content %}
     <div class="main-chat-container" id="close-chat-tab">
-        <div class="selected-user" style="background-color: #7e3af2; border-bottom: 2px solid #7e3af2;border-radius: 8px;">
-            <span style=" padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}
-                <i id="x-cross"  title="Click to Close the tab" class="fa-solid fa-xmark"></i> 
-                <div style="margin-top: -50px;margin-left: 10px;" class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+         <div class="selected-user" style="background-color: #7e3af2; border-bottom: 2px solid #7e3af2;border-radius: 8px;">
+            
+                <span class="hover-target" style="padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}
+    
                     {% if userpro %}
+                       <div style="margin-top: -50px;margin-left: 10px;"  class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                     <img class="object-cover w-full h-full rounded-full" 
+                       src="{{userpro.profile_image.url}}" alt="userimage" loading="lazy">
+                     </div>
+                    </span> <i  id="x-cross"  title="Click to Close the tab" class="fa-solid fa-xmark"></i>
+            
+
+            <!-- users info  -->
+            <div  class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800 users-info ">
+                <div class="user-info-pic">
+                    <img class="userimg"
                     src="{{userpro.profile_image.url}}" alt="userimage" loading="lazy">
-                    {% endif %}
-                  </div>
-            </span>
+                </div>
+                <div class="user-data" >
+                    <p class="user-info-name">{{frnd.username}}</p>
+                    <p class="user-info-email">{{frnd.email}}</p>                  
+                </div>
+                <i class="fa-solid bio-icon fa-circle-exclamation"></i>
+                <div class="biodiv">
+                    <p class="user-info-bio"> {{userpro.Bio}}</p>
+                </div>
+              </div>
+              <!-- users info  -->
         </div>
+        {% endif %}   
+
+        
+        
         <div  class="chat-container messagesdiv dark:border-gray-600 dark:bg-gray-700" id='chat-body'>
 
             {% for message in messages_data %}
@@ -64,7 +90,79 @@
     </div>
 
 <style>
+.hover-target{
+    cursor: pointer;
+    width: auto;
+    /* background-color: red; */
+}
 
+.users-info{
+    position: absolute;
+    z-index: 999;
+    width: 380px;
+    margin-top: -9px;
+    margin-left: 50px;
+    height: auto;
+    display: inline;
+    display: none;
+    word-wrap: break-word;
+    
+}
+.userimg{
+    border-radius: 50%;
+    height: 70px;
+    width: 70px;
+}
+.user-info-pic{
+    height: 70px;
+    width: 70px;
+    margin-left: 0px;
+    margin-right: 10px;
+    margin-top: 0px;
+    border-radius: 50px;
+}
+.user-data{
+    /* background-color: rgb(111, 0, 255); */
+    line-height: 18px;
+    width: auto;
+    margin-top: -57px;
+    margin-left: 82px;
+}
+
+.user-info-name{
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: 500;
+    font-size: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;   
+} 
+.user-info-email{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #605f5f;
+}
+
+.biodiv{
+    /* background-color: red; */
+    margin-left: 45px;
+    padding: 0px;
+    margin-top: -41px;
+
+}
+
+.bio-icon{
+    margin-left: 24px;
+    font-size: 14px;
+    color: #605f5f;
+}
+.user-info-bio{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #605f5f;
+    line-height: 18px;
+}
 
 .main-chat-container{
     background-color: #7e3af2;
@@ -112,8 +210,8 @@
 
 
 .messagesdiv {
-    min-height: 482px;
-    max-height: 482px; 
+    min-height: 464px;
+    max-height: 464px; 
     width: auto;
     background-color: #f4f0f0;
     overflow-y: scroll;
@@ -168,7 +266,7 @@
 
 #x-cross{
     float: right;
-    margin-top: 22px;
+    margin-top: -22px;
     margin-right: 20px;
     color: rgba(255, 255, 255, 0.81);
     cursor: pointer;
@@ -179,6 +277,25 @@
 }
 
 </style>
+
+
+<script>
+    const targetDiv = document.querySelector('.hover-target');
+    const hiddenContent = document.querySelector('.users-info');
+
+let timeoutId;
+
+targetDiv.addEventListener('mouseenter', () => {
+  timeoutId = setTimeout(() => {
+    hiddenContent.style.display = 'block';
+  }, 1000); 
+});
+
+targetDiv.addEventListener('mouseleave', () => {
+  clearTimeout(timeoutId); 
+  hiddenContent.style.display = 'none';
+});
+</script>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
