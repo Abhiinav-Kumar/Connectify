@@ -26,9 +26,13 @@ def forgot_password(request):
 #registration view
 def User_signup(request):
     if request.method == "POST":
-        EMAIL = request.POST.get('email')
-        USERNAME = request.POST.get('username')
-        PASSWORD = request.POST.get('password1')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        password = request.POST.get('password1')
+
+        EMAIL= email.strip()
+        USERNAME = username.strip()
+        PASSWORD = password.strip()
 
         if User.objects.filter(username=USERNAME).exists():
             messages.warning(request,"Username already existed")
@@ -47,8 +51,11 @@ def User_signup(request):
 #login views
 def user_login(request):
     if request.method == "POST":
-        USERNAME = request.POST.get('username')
-        PASSWORD = request.POST.get('password')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        USERNAME = username.strip()
+        PASSWORD = password.strip()
 
         user = authenticate(username=USERNAME,password=PASSWORD)
         if user is not None:
@@ -57,7 +64,7 @@ def user_login(request):
             request.session['Password']=PASSWORD
             
             messages.success(request,"Successfully logged in")
-            return redirect(Chat_Page)
+            return redirect(Chat_Page,)
         else:
             messages.error(request,"Username or Password is not matching, Try again")
             return redirect(login_page)
@@ -66,7 +73,7 @@ def user_login(request):
 # logout view
 def logout_view(request):
     logout(request)
-    messages.error(request,"Logout done")
+    messages.success(request,"You have been successfully logged out")
     return redirect(Home_page)
 
 
@@ -237,10 +244,11 @@ def Profile_updation(request,user_id):
 @login_required
 def Profile_update(request,userid):
     if request.method == "POST":
-        US = request.POST.get('username')
-        EM = request.POST.get('email')
-        BIO = request.POST.get('bio')
-
+        us = request.POST.get('username')
+        em = request.POST.get('email')
+        BIO = request.POST.get('bio')        
+        US = us.strip()
+        EM = em.strip()
         existing_user = User.objects.filter(Q(username=US) | Q(email=EM)).exclude(id=userid).exists()
 
         if existing_user:
@@ -257,6 +265,7 @@ def Profile_update(request,userid):
             file = User_details.objects.get(user_id_id =userid).profile_image
         User_details.objects.filter(user_id_id=userid).update(Bio=BIO,profile_image=file)
         User.objects.filter(id=userid).update(email=EM,username=US)
+        messages.success(request,"Your profile has been updated successfully!")
         return redirect(Profile_Page)
 
 #Delete Account
@@ -269,7 +278,7 @@ def DeleteAccount(request):
         user = authenticate(username=Auser, password=Apass)
         if user is not None:
             user.delete()
-            messages.error(request,"Account Deleted")
+            messages.error(request,"Your account has been deleted successfully. We're sorry to see you go.")
             return redirect('Home_page')  
         else:
             messages.warning(request,"wrong password ")

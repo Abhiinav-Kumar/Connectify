@@ -432,32 +432,78 @@ button.primary {
 
   </style>
   
- 
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   
+  <style>
+    .alert {
+      min-width: 430px;
+      height: 50px;
+      padding: 10px;
+      margin: 20px;
+      border-radius: 3px;
+      position: absolute;
+      right: 0px;
+      color: white;
+      top: 0px;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 15px;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      transform: translateX(0);
+      z-index: 999;
+    }
+  </style>
 
-  {% if messages %}
-  {% for i in messages %}
-  {% if i.tags == 'warning' %}
-  <script>
-      swal('{{i}}','','warning')
-  </script>
-  {% elif i.tags == 'error' %}
-  <script>
-      swal('{{i}}','','error')
-  </script>
-  {% elif i.tags == 'info' %}
-  <script>
-      swal('{{i}}','','info')
-  </script>
-  {% else %}
-  <script>
-      swal('{{i}}','','success')
-  </script>
-  {% endif %}
-  {% endfor %}
-  {% endif %}
+
+{% if messages %}
+{% for i in messages %}
+{% if i.tags == 'warning' %}
+
+<div style="background-color: rgba(255, 255, 0, 0.777);" class="alert" id="alert">
+  {{ i }}&nbsp;&nbsp;<i class="fa-solid fa-triangle-exclamation"></i>
+</div>
+
+{% elif i.tags == 'error' %}
+<div style="background-color: rgba(255, 0, 0, 0.795);" class="alert" id="alert">
+  {{ i }}&nbsp;&nbsp; <i class="fa-solid fa-bomb"></i>
+</div>
 
 
+
+{% elif i.tags == 'info' %}
+<div style="background-color: rgba(9, 32, 236, 0.768);" class="alert" id="alert">
+  {{ i }}&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i>
+</div>
+
+
+
+{% else %}
+<div style="background-color: rgba(9, 236, 9, 0.768);" class="alert" id="alert">
+  {{ i }}&nbsp;&nbsp;<i class="fa-regular fa-circle-check"></i>
+</div>
+
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<script>
+  // Function to hide the alert after 3 seconds
+  function hideAlert() {
+      const alertDiv = document.getElementById('alert');
+      setTimeout(() => {
+          alertDiv.style.opacity = '0';
+      }, 3000);
+      setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 3000);
+  }
+
+  // Call the function to hide the alert
+  hideAlert();
+</script>
 
 </body>
 </html>

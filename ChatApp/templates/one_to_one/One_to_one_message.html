@@ -16,10 +16,10 @@
     <div class="main-chat-container" id="close-chat-tab">
          <div class="selected-user" style="background-color: #7e3af2; border-bottom: 2px solid #7e3af2;border-radius: 8px;">
             
-                <span class="hover-target" style="padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}
+             <section class="hover-target">  <span style="padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}</section> 
     
                     {% if userpro %}
-                       <div style="margin-top: -50px;margin-left: 10px;"  class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                       <div style="margin-top: -50px;margin-left: 10px;"  class="relative hidden w-8 h-8 mr-3 rounded-full md:block ">
                     <img class="object-cover w-full h-full rounded-full" 
                        src="{{userpro.profile_image.url}}" alt="userimage" loading="lazy">
                      </div>
@@ -36,7 +36,7 @@
                     <p class="user-info-name">{{frnd.username}}</p>
                     <p class="user-info-email">{{frnd.email}}</p>                  
                 </div>
-                <i class="fa-solid bio-icon fa-circle-exclamation"></i>
+                <i class="fa-solid fa-circle-info bio-icon "></i>
                 <div class="biodiv">
                     <p class="user-info-bio"> {{userpro.Bio}}</p>
                 </div>
@@ -92,6 +92,7 @@
 <style>
 .hover-target{
     cursor: pointer;
+    max-width: fit-content;
     width: auto;
     /* background-color: red; */
 }
@@ -291,7 +292,7 @@ targetDiv.addEventListener('mouseenter', () => {
   }, 1000); 
 });
 
-targetDiv.addEventListener('mouseleave', () => {
+hiddenContent.addEventListener('mouseleave', () => {
   clearTimeout(timeoutId); 
   hiddenContent.style.display = 'none';
 });
