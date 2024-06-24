@@ -19,9 +19,6 @@ def Sign_Up(request):
 def login_page(req):
     return render(req,'Signin.html')
 
-def forgot_password(request):
-    return render(request,"Password_managing/password_reset_form.html")
-
 
 #registration view
 def User_signup(request):
@@ -75,6 +72,12 @@ def logout_view(request):
     logout(request)
     messages.success(request,"You have been successfully logged out")
     return redirect(Home_page)
+
+
+# Forgot password 
+
+def forgot_password(request):
+    return render(request,"Password_managing/password_reset_form.html")
 
 
 
@@ -246,7 +249,8 @@ def Profile_update(request,userid):
     if request.method == "POST":
         us = request.POST.get('username')
         em = request.POST.get('email')
-        BIO = request.POST.get('bio')        
+        BIO = request.POST.get('bio')
+        # passw = request.POST.get('password')        
         US = us.strip()
         EM = em.strip()
         existing_user = User.objects.filter(Q(username=US) | Q(email=EM)).exclude(id=userid).exists()
