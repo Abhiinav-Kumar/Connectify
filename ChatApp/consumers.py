@@ -82,11 +82,11 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
             
         async def receive(self, text_data=None, bytes_data=None):
             data = json.loads(text_data)
-            print(data)
+            # print(data)
             message = data['message']
             user_id = data['userId']
             receiver_id = data['receiverId']
-            print(f"data after extract receive function :",message,user_id,receiver_id)
+            # print(f"data after extract receive function :",message,user_id,receiver_id)
             
             await self.save_message(user_id,self.room_group_name,message,receiver_id)
             await self.channel_layer.group_send(
@@ -102,7 +102,7 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
             message = event['message']
             user_id = event['userId']
 
-            print("Chat message function :",message, user_id)
+            # print("Chat message function :",message, user_id)
 
             await self.send(text_data=json.dumps({
                 'message':message,

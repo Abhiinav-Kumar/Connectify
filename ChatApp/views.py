@@ -3,10 +3,11 @@ from ChatApp.models import Room,Message,ChatModelPvt,User_details
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 from django.utils.datastructures import MultiValueDictKeyError
+from django.contrib.auth.forms import PasswordChangeForm
 # Create your views here.
 
 def Home_page(request):
@@ -271,6 +272,26 @@ def Profile_update(request,userid):
         User.objects.filter(id=userid).update(email=EM,username=US)
         messages.success(request,"Your profile has been updated successfully!")
         return redirect(Profile_Page)
+    
+#Update Password
+def Change_password(request):
+
+    if request.method == "POST":
+        obj = PasswordChangeForm(user=request.user,data=request.POST)
+        if obj.is_valid():
+            obj.save()
+            update_session_auth_hash(request,obj.user)
+            messages.success(request,"Your password has been updated successfully!")
+            return redirect(Profile_Page)
+    else:
+        obj = PasswordChangeForm(user=request.user)
+    return render(request,"profile/Change_password.html",{'obj':obj})
+
+
+
+
+
+
 
 #Delete Account
 @login_required

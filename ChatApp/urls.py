@@ -26,6 +26,9 @@ urlpatterns = [
     path('Profile_updation/<int:user_id>/',views.Profile_updation,name='Profile_updation'),
     path('Profile_update/<int:userid>/',views.Profile_update,name='Profile_update'),
 
+    #update password
+    path('Change_password/',views.Change_password,name='Change_password'),
+
     
     #Delete Acc
     path('DeleteAccount/',views.DeleteAccount,name='DeleteAccount'),
@@ -33,5 +36,5 @@ urlpatterns = [
     # forgot password
     path('forgot_password/',views.forgot_password,name='forgot_password'),
 
-    # path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),
+    
 ]
