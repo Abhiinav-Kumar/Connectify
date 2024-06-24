@@ -278,6 +278,7 @@ def Change_password(request):
 
     if request.method == "POST":
         obj = PasswordChangeForm(user=request.user,data=request.POST)
+        print(obj)
         if obj.is_valid():
             obj.save()
             update_session_auth_hash(request,obj.user)
@@ -286,10 +287,6 @@ def Change_password(request):
     else:
         obj = PasswordChangeForm(user=request.user)
     return render(request,"profile/Change_password.html",{'obj':obj})
-
-
-
-
 
 
 
