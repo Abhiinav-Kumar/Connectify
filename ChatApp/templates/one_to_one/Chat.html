@@ -280,7 +280,7 @@
               {% for data in users_data %}
             <a href="{% url 'One_message' username=data.user.username userid=data.user.id %}">
               <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
-                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                <div class="relative  w-8 h-8 mr-3 rounded-full md:block">
 
                   <img class="object-cover w-full h-full rounded-full" 
                   src="{{data.user_img.profile_image.url}}" alt="" loading="lazy">

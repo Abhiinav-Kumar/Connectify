@@ -19,7 +19,7 @@
              <section class="hover-target">  <span style="padding-left: 50px; color: white;" class="mb-4 font-semibold text-gray-600 dark:text-gray-300">{{frnd.username}}</section> 
     
                     {% if userpro %}
-                       <div style="margin-top: -50px;margin-left: 10px;"  class="relative hidden w-8 h-8 mr-3 rounded-full md:block ">
+                       <div style="margin-top: -50px;margin-left: 10px;"  class=" w-8 h-8 mr-3 rounded-full md:block ">
                     <img class="object-cover w-full h-full rounded-full" 
                        src="{{userpro.profile_image.url}}" alt="userimage" loading="lazy">
                      </div>
@@ -282,7 +282,7 @@
 
 <script>
     const targetDiv = document.querySelector('.hover-target');
-    const hiddenContent = document.querySelector('.users-info');
+    const hiddenContent = document.querySelector('.users-info',);
 
 let timeoutId;
 
