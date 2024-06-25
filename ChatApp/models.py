@@ -37,9 +37,10 @@ class ChatModelPvt(models.Model):
 
     def __str__(self) -> str:
         return self.message
+
+ 
     
 # User details model
-
 class User_details(models.Model):
     user_id = models.OneToOneField(User,on_delete=models.CASCADE,default=0)
     user_name = models.CharField(max_length=150, unique=True)

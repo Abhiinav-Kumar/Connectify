@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: ironman@gmail.com
+Date: Tue, 25 Jun 2024 15:00:01 -0000
+Message-ID: <171932760168.23952.17882943338708673139@Lenovo>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/reset/MTk/c972a1-1a62425f1f7051b9913f0651582492f2/
+
+Your username, in case you’ve forgotten: Ironman
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
