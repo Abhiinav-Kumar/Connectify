@@ -35,7 +35,7 @@ urlpatterns = [
 
 
     #forgot password
-    path('forgot_password',views.forgot_password,name="forgot_password"),
+    # path('forgot_password',views.forgot_password,name="forgot_password"),
 
     # forgot password in built
     path('password_reset/',auth_views.PasswordResetView.as_view(),name='password_reset'),

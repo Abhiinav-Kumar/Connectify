@@ -77,8 +77,8 @@ def logout_view(request):
 
 # Forgot password 
 
-def forgot_password(request):
-    return render(request,"registration/password_reset_form.html")
+# def forgot_password(request):
+#     return render(request,"registration/password_reset_form.html")
 
 
 # room message view
