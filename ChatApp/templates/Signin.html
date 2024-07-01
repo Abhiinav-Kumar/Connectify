@@ -62,7 +62,8 @@
                 <span class="text-gray-700 dark:text-gray-400">Password</span>
                 <input
                   class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                  placeholder="***************" type="password" name="password"  />
+                  placeholder="***************" type="password" name="password" id="password-field" />
+                  <!-- <i style="float: right; margin-top: -27px; margin-right: 5px;" class="fa-solid fa-eye" id="eye"></i> -->
               </label>
 
 
@@ -162,6 +163,22 @@
 {% endif %}
 {% endfor %}
 {% endif %}
+
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+   $(document).ready(function() {
+  $("#eye").click(function() {
+    var passwordField = $("#password-field");
+    if (passwordField.attr("type") === "password") {
+      passwordField.attr("type", "text");
+    } else {
+      passwordField.attr("type", "password");
+    }
+  });
+});
+</script> -->
+
 
 <script>
   // Function to hide the alert after 3 seconds

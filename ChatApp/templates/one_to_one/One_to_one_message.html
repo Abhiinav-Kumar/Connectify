@@ -23,7 +23,7 @@
                     <img class="object-cover w-full h-full rounded-full" 
                        src="{{userpro.profile_image.url}}" alt="userimage" loading="lazy">
                      </div>
-                    </span> <i  id="x-cross"  title="Click to Close the tab" class="fa-solid fa-xmark"></i>
+                    </span> <a href="{% url 'Chat_Page' %}"><i  id="x-cross"  title="Click to Close the tab" class="fa-solid fa-xmark"></i></a>
             
 
             <!-- users info  -->
@@ -298,7 +298,7 @@ hiddenContent.addEventListener('mouseleave', () => {
 });
 </script>
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <script>
     $(document).ready(function(){
@@ -306,7 +306,7 @@ hiddenContent.addEventListener('mouseleave', () => {
             $("#close-chat-tab").hide()
         })
     })
-</script>
+</script> -->
 
 {{user.id|json_script:"json-id"}}
 {{request.user.id|json_script:"json-message-id"}}

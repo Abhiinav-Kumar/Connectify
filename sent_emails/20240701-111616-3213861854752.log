@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: pistonmen0@gmail.com
+Date: Mon, 01 Jul 2024 05:46:16 -0000
+Message-ID: <171981277634.4764.7803377841957042711@Lenovo>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/reset/Mzg/c9hgn4-09e1c002f8bde47ccf5c6ed6f4ae13a3/
+
+Your username, in case you’ve forgotten: Piston
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
