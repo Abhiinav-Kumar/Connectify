@@ -42,8 +42,7 @@
         <div class="flex items-center justify-center p-6 sm:p-8 md:w-1/2">
           <div class="w-full">
 
-            <form method="post" action="{% url 'User_signup' %}"  name="signup_form"
-              onsubmit="return signup_function()">
+            <form method="post" action="{% url 'User_signup' %}" name="signup_form" onsubmit="return signup_function()">
               {% csrf_token %}
 
               <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Create account</h1>
@@ -74,14 +73,14 @@
                   placeholder="***************" type="password" name="password2" />
               </label>
 
-                <button type="submit" style="margin-top:20px;"
-                  class="block w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                  Create account
-                </button>
+              <button type="submit" style="margin-top:20px;"
+                class="block w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Create account
+              </button>
             </form>
             <hr class="my-8" />
 
-            <button
+            <!-- <button
               class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
               <i class="fa-brands fa-google"></i>
               &nbsp; &nbsp; Google
@@ -90,7 +89,7 @@
               class="flex items-center justify-center w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
               <i class="fa-brands fa-apple"></i>
               &nbsp; &nbsp; Apple
-            </button>
+            </button> -->
 
             <p class="mt-4">
               <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
@@ -151,78 +150,78 @@
   </script>
 
 
-  
-<style>
-  .alert {
-    min-width: 430px;
-    height: 50px;
-    padding: 10px;
-    margin: 20px;
-    border-radius: 3px;
-    position: absolute;
-    right: 0px;
-    color: white;
-    top: 0px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 15px;
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out;
-    transform: translateX(0);
-    z-index: 999;
-  }
-</style>
+
+  <style>
+    .alert {
+      min-width: 430px;
+      height: 50px;
+      padding: 10px;
+      margin: 20px;
+      border-radius: 3px;
+      position: absolute;
+      right: 0px;
+      color: white;
+      top: 0px;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 15px;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      transform: translateX(0);
+      z-index: 999;
+    }
+  </style>
 
 
-{% if messages %}
-{% for i in messages %}
-{% if i.tags == 'warning' %}
+  {% if messages %}
+  {% for i in messages %}
+  {% if i.tags == 'warning' %}
 
-<div style="background-color:#efd30a; color: #000;" class="alert" id="alert">
-{{ i }}&nbsp;&nbsp;<i class="fa-solid fa-triangle-exclamation"></i>
-</div>
+  <div style="background-color:#efd30a; color: #000;" class="alert" id="alert">
+    {{ i }}&nbsp;&nbsp;<i class="fa-solid fa-triangle-exclamation"></i>
+  </div>
 
-{% elif i.tags == 'error' %}
-<div style="background-color: rgba(255, 0, 0, 0.795);" class="alert" id="alert">
-{{ i }}&nbsp;&nbsp; <i class="fa-solid fa-bomb"></i>
-</div>
-
-
-
-{% elif i.tags == 'info' %}
-<div style="background-color: rgba(9, 32, 236, 0.768);" class="alert" id="alert">
-{{ i }}&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i>
-</div>
+  {% elif i.tags == 'error' %}
+  <div style="background-color: rgba(255, 0, 0, 0.795);" class="alert" id="alert">
+    {{ i }}&nbsp;&nbsp; <i class="fa-solid fa-bomb"></i>
+  </div>
 
 
 
-{% else %}
-<div style="background-color: rgba(9, 236, 9, 0.768);" class="alert" id="alert">
-{{ i }}&nbsp;&nbsp;<i class="fa-regular fa-circle-check"></i>
-</div>
+  {% elif i.tags == 'info' %}
+  <div style="background-color: rgba(9, 32, 236, 0.768);" class="alert" id="alert">
+    {{ i }}&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i>
+  </div>
 
 
-{% endif %}
-{% endfor %}
-{% endif %}
 
-<script>
-// Function to hide the alert after 3 seconds
-function hideAlert() {
-    const alertDiv = document.getElementById('alert');
-    setTimeout(() => {
+  {% else %}
+  <div style="background-color: rgba(9, 236, 9, 0.768);" class="alert" id="alert">
+    {{ i }}&nbsp;&nbsp;<i class="fa-regular fa-circle-check"></i>
+  </div>
+
+
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  <script>
+    // Function to hide the alert after 3 seconds
+    function hideAlert() {
+      const alertDiv = document.getElementById('alert');
+      setTimeout(() => {
         alertDiv.style.opacity = '0';
-    }, 3000);
-    setTimeout(() => {
-              alertDiv.style.display = 'none';
-          }, 3000);
-}
+      }, 3000);
+      setTimeout(() => {
+        alertDiv.style.display = 'none';
+      }, 3000);
+    }
 
-// Call the function to hide the alert
-hideAlert();
-</script>
+    // Call the function to hide the alert
+    hideAlert();
+  </script>
 
 
 </body>
