@@ -158,7 +158,7 @@ def Chat_Page(request,*args,**kwargs):
 
     # notifications
     # notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
-    unread_notifications = NotificationDB.objects.filter(is_read=False).values('sender').annotate(unread_count=Count('id'))
+    unread_notifications = NotificationDB.objects.filter(receiver=current_user_id,is_read=False).values('sender').annotate(unread_count=Count('id'))
 
     notify = {item['sender']: item['unread_count'] for item in unread_notifications}
     print("unread_notifications",notify)
@@ -218,7 +218,7 @@ def One_message(request,username,userid):
 
     # notification view 
     # notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
-    unread_notifications = NotificationDB.objects.filter(is_read=False).values('sender').annotate(unread_count=Count('id'))
+    unread_notifications = NotificationDB.objects.filter(receiver=current_user_id,is_read=False).values('sender').annotate(unread_count=Count('id'))
     notify = {item['sender']: item['unread_count'] for item in unread_notifications}
     print("unread_notifications",notify)
     NotificationDB.objects.filter(roomname=thread_name,receiver=request.user.id).update(is_read=True)
