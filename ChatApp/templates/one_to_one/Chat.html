@@ -13,7 +13,7 @@
   <link rel="icon" sizes="16px 16px;" href="{% static 'webstyle/logo/Connectify_Favivon.png' %}" type="icon">
 
 
-  
+
 
   <!--    font awesome-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -175,7 +175,7 @@
           </button>
           <!-- Search input -->
           <div class="flex justify-center flex-1 lg:mr-32">
-            
+
           </div>
           <ul class="flex items-center flex-shrink-0 space-x-6">
             <!-- Theme toggler -->
@@ -197,17 +197,16 @@
               </button>
             </li>
             <!-- Notifications menu -->
-            
+
             <!-- Profile menu -->
             <li class="relative">
               <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                 @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account" aria-haspopup="true">
                 {% if userdata %}
-                <img class="object-cover w-8 h-8 rounded-full"
-                  src="{{userdata.profile_image.url}}"
-                  alt="Profile images" aria-hidden="true" />
+                <img class="object-cover w-8 h-8 rounded-full" src="{{userdata.profile_image.url}}" alt="Profile images"
+                  aria-hidden="true" />
                 {% endif %}
-              </button> 
+              </button>
               <template x-if="isProfileMenuOpen">
                 <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
                   x-transition:leave-end="opacity-0" @click.away="closeProfileMenu" @keydown.escape="closeProfileMenu"
@@ -240,15 +239,15 @@
 
           <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"></h3>
 
-          <!-- users div  -->
+          <div id="content">
+            <!-- users div  -->
+            <div class="Usersmaindiv min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+              <div style=" position: static;">
+                <p style="margin-bottom: 18px;" class="text-sm text-gray-600 dark:text-gray-400">
+                  Peoples are in Connectify
+                </p>
 
-          <div  class="Usersmaindiv min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-            <div style=" position: static;">
-              <p style="margin-bottom: 18px;" class="text-sm text-gray-600 dark:text-gray-400">
-                Peoples are in Connectify
-              </p>
-  
-              <!-- <div style="margin-bottom: 15px;" class="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
+                <!-- <div style="margin-bottom: 15px;" class="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
                 <div class="absolute inset-y-0 flex items-center pl-2">
                   <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd"
@@ -260,70 +259,65 @@
                   class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
                   type="search" placeholder="Search for find friends" id="Search" />
             </div> -->
-            </div>
-           
-            <div class="Usersdiv">
-              {% for data in users_data %}
-            <a href="{% url 'One_message' username=data.user.username userid=data.user.id %}">
-              <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
-                <div class="relative  w-8 h-8 mr-3 rounded-full md:block">
-
-                  <img class="object-cover w-full h-full rounded-full" 
-                  src="{{data.user_img.profile_image.url}}" alt="" loading="lazy">
-                  <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                </div>
-                <div>
-                  
-                  
-                    <p  class=" font-semibold text-gray-700 dark:text-gray-200">
-                      {{data.user.username}} 
-                      {% for notification in notify %}
-                      {% if notification.sender.id == data.user.id %}
-                      &nbsp; <i style="color: rgb(13, 255, 0); font-size: 7px;" class="fa-solid fa-circle"></i>
-                      {% endif %}
-                    {% endfor %}
-                    </p>
-                
-                </div>
               </div>
-            </a>
-            {% endfor %}
+
+              <div class="Usersdiv">
+                {% for data in users_data %}
+                <a href="{% url 'One_message' username=data.user.username userid=data.user.id %}">
+                  <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
+                    <div class="relative  w-8 h-8 mr-3 rounded-full md:block">
+
+                      <img class="object-cover w-full h-full rounded-full" src="{{data.user_img.profile_image.url}}"
+                        alt="" loading="lazy">
+                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                    </div>
+                    <div>
+
+
+                      <p class=" font-semibold text-gray-700 dark:text-gray-200">
+                        {{data.user.username}}
+                        {% for notification in notify %}
+                        {% if notification.sender.id == data.user.id %}
+                        &nbsp; <i style="color: rgb(13, 255, 0); font-size: 7px;" class="fa-solid fa-circle"></i>
+                        {% endif %}
+                        {% endfor %}
+                      </p>
+
+                    </div>
+                  </div>
+                </a>
+                {% endfor %}
+              </div>
             </div>
-
-       
-            
-            
-             
           </div>
-
           {% block content %}
           <!-- users div  -->
 
-          
+
 
           <!-- welcome div  -->
 
           <div class=" bg-white rounded-lg shadow-xs dark:bg-gray-800 welcomediv">
-          
-              {% if loginedUser %}
-              <h1 style= "padding-top: 100px;" class="Intro-title font-semibold">Hello, {{loginedUser.username}}</h1>
-              <h4 class="quotes dark:text-gray-200">'Building Bridges through Conversation.'</h4>
 
-               {% endif %}
-          
-            
-      </div>
+            {% if loginedUser %}
+            <h1 style="padding-top: 100px;" class="Intro-title font-semibold">Hello, {{loginedUser.username}}</h1>
+            <h4 class="quotes dark:text-gray-200">'Building Bridges through Conversation.'</h4>
+
+            {% endif %}
+
+
           </div>
-
-           <!-- welcome div  -->
-
-           {% endblock %}
-
-          
         </div>
-      </main>
-      <!--        end main page -->
+
+        <!-- welcome div  -->
+
+        {% endblock %}
+
+
     </div>
+    </main>
+    <!--        end main page -->
+  </div>
   </div>
 
 
@@ -343,300 +337,322 @@
 
   <!-- # css style -->
   <style>
-      .maincontainer{
-        display: flex;
-        column-gap: 20px;
-        padding-top: 25px;
-      }
+    .maincontainer {
+      display: flex;
+      column-gap: 20px;
+      padding-top: 25px;
+    }
 
-      .Usersdiv::-webkit-scrollbar{
+    .Usersdiv::-webkit-scrollbar {
       display: none;
-}
-.Usersdiv{
-  overflow-y: scroll;
-   height:530px ;
-}
+    }
 
-      .Usersmaindiv{
-        min-height:600px;
-        max-height: 600px;
-        text-align:left;
-        width: 250px;
-        min-width:250px;
-        margin-left:-30px; 
-        margin-right: 20px;
+    .Usersdiv {
+      overflow-y: scroll;
+      height: 530px;
+    }
 
-      }
+    .Usersmaindiv {
+      min-height: 600px;
+      max-height: 600px;
+      text-align: left;
+      width: 250px;
+      min-width: 250px;
+      margin-left: -30px;
+      margin-right: 20px;
 
-       .welcomediv{
-        max-height:600px; 
-        text-align:center;
-        width: 980px;
-        min-width: 500px;
-        
-      }
+    }
 
-      .users_tab{
-        margin-bottom: 8px;
-        height: 48px;
-      }
-      .users_tab:hover{
-        background-color:#f0f0f0dc;
+    .welcomediv {
+      max-height: 600px;
+      text-align: center;
+      width: 980px;
+      min-width: 500px;
 
-      }
+    }
+
+    .users_tab {
+      margin-bottom: 8px;
+      height: 48px;
+    }
+
+    .users_tab:hover {
+      background-color: #f0f0f0dc;
+
+    }
 
 
-      .chat-container li.chat-left,
-.chat-container li.chat-right {
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    margin-bottom: 40px;
-}
-
-.chat-container li img {
-    width: 48px;
-    height: 48px;
-    -webkit-border-radius: 30px;
-    -moz-border-radius: 30px;
-    border-radius: 30px;
-}
-
-.chat-container li .chat-avatar {
-    margin-right: 20px;
-}
-
-.chat-container li.chat-right {
-    justify-content: flex-end;
-}
-
-.chat-container li.chat-right > .chat-avatar {
-    margin-left: 20px;
-    margin-right: 0;
-}
-
-.chat-container li .chat-name {
-    font-size: .75rem;
-    color: #999999;
-    text-align: center;
-}
-
-.chat-container li .chat-text {
-    padding: .4rem 1rem;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    background: #ffffff;
-    font-weight: 300;
-    line-height: 150%;
-    position: relative;
-    text-align: left;
-}
-
-.chat-container li .chat-text:before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: 10px;
-    left: -20px;
-    border: 10px solid;
-    border-color: transparent #ffffff transparent transparent;
-}
-
-.chat-container li.chat-right > .chat-text {
-    text-align: right;
-}
-
-.chat-container li.chat-right > .chat-text:before {
-    right: -20px;
-    border-color: transparent transparent transparent #ffffff;
-    left: inherit;
-}
-
-.chat-container li .chat-hour {
-    padding: 0;
-    margin-bottom: 10px;
-    font-size: .75rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 0 0 0 15px;
-}
-
-.chat-container li .chat-hour > span {
-    font-size: 16px;
-    color: #9ec94a;
-}
-
-.chat-container li.chat-right > .chat-hour {
-    margin: 0 15px 0 0;
-}
-
-@media (max-width: 767px) {
     .chat-container li.chat-left,
     .chat-container li.chat-right {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      margin-bottom: 40px;
+    }
+
+    .chat-container li img {
+      width: 48px;
+      height: 48px;
+      -webkit-border-radius: 30px;
+      -moz-border-radius: 30px;
+      border-radius: 30px;
+    }
+
+    .chat-container li .chat-avatar {
+      margin-right: 20px;
+    }
+
+    .chat-container li.chat-right {
+      justify-content: flex-end;
+    }
+
+    .chat-container li.chat-right>.chat-avatar {
+      margin-left: 20px;
+      margin-right: 0;
+    }
+
+    .chat-container li .chat-name {
+      font-size: .75rem;
+      color: #999999;
+      text-align: center;
+    }
+
+    .chat-container li .chat-text {
+      padding: .4rem 1rem;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      background: #ffffff;
+      font-weight: 300;
+      line-height: 150%;
+      position: relative;
+      text-align: left;
+    }
+
+    .chat-container li .chat-text:before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 10px;
+      left: -20px;
+      border: 10px solid;
+      border-color: transparent #ffffff transparent transparent;
+    }
+
+    .chat-container li.chat-right>.chat-text {
+      text-align: right;
+    }
+
+    .chat-container li.chat-right>.chat-text:before {
+      right: -20px;
+      border-color: transparent transparent transparent #ffffff;
+      left: inherit;
+    }
+
+    .chat-container li .chat-hour {
+      padding: 0;
+      margin-bottom: 10px;
+      font-size: .75rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin: 0 0 0 15px;
+    }
+
+    .chat-container li .chat-hour>span {
+      font-size: 16px;
+      color: #9ec94a;
+    }
+
+    .chat-container li.chat-right>.chat-hour {
+      margin: 0 15px 0 0;
+    }
+
+    @media (max-width: 767px) {
+
+      .chat-container li.chat-left,
+      .chat-container li.chat-right {
         flex-direction: column;
         margin-bottom: 30px;
-    }
-    .chat-container li img {
+      }
+
+      .chat-container li img {
         width: 32px;
         height: 32px;
-    }
-    .chat-container li.chat-left .chat-avatar {
+      }
+
+      .chat-container li.chat-left .chat-avatar {
         margin: 0 0 5px 0;
         display: flex;
         align-items: center;
-    }
-    .chat-container li.chat-left .chat-hour {
+      }
+
+      .chat-container li.chat-left .chat-hour {
         justify-content: flex-end;
-    }
-    .chat-container li.chat-left .chat-name {
+      }
+
+      .chat-container li.chat-left .chat-name {
         margin-left: 5px;
-    }
-    .chat-container li.chat-right .chat-avatar {
+      }
+
+      .chat-container li.chat-right .chat-avatar {
         order: -1;
         margin: 0 0 5px 0;
         align-items: center;
         display: flex;
         justify-content: right;
         flex-direction: row-reverse;
-    }
-    .chat-container li.chat-right .chat-hour {
+      }
+
+      .chat-container li.chat-right .chat-hour {
         justify-content: flex-start;
         order: 2;
-    }
-    .chat-container li.chat-right .chat-name {
+      }
+
+      .chat-container li.chat-right .chat-name {
         margin-right: 5px;
-    }
-    .chat-container li .chat-text {
+      }
+
+      .chat-container li .chat-text {
         font-size: .8rem;
+      }
     }
-}
 
-.chat-form {
-    padding: 15px;
-    width: 100%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ffffff;
-    border-top: 1px solid white;
-}
+    .chat-form {
+      padding: 15px;
+      width: 100%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ffffff;
+      border-top: 1px solid white;
+    }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-.card {
-    border: 0;
-    background: #f4f5fb;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    margin-bottom: 2rem;
-    box-shadow: none;
-}
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
 
-.selected-user {
-    width: 100%;
-    padding: 0 15px;
-    min-height: 64px;
-    line-height: 64px;
-    border-bottom: 1px solid #e6ecf3;
-    -webkit-border-radius: 0 3px 0 0;
-    -moz-border-radius: 0 3px 0 0;
-    border-radius: 0 3px 0 0;
-}
+    .card {
+      border: 0;
+      background: #f4f5fb;
+      -webkit-border-radius: 2px;
+      -moz-border-radius: 2px;
+      border-radius: 2px;
+      margin-bottom: 2rem;
+      box-shadow: none;
+    }
 
-.selected-user span {
-    line-height: 100%;
-}
+    .selected-user {
+      width: 100%;
+      padding: 0 15px;
+      min-height: 64px;
+      line-height: 64px;
+      border-bottom: 1px solid #e6ecf3;
+      -webkit-border-radius: 0 3px 0 0;
+      -moz-border-radius: 0 3px 0 0;
+      border-radius: 0 3px 0 0;
+    }
 
-.selected-user span.name {
-    font-weight: 700;
-}
+    .selected-user span {
+      line-height: 100%;
+    }
 
-.chat-container {
-    position: relative;
-    padding: 1rem;
-}
+    .selected-user span.name {
+      font-weight: 700;
+    }
+
+    .chat-container {
+      position: relative;
+      padding: 1rem;
+    }
   </style>
 
-  
-<style>
-  .alert {
-    min-width: 430px;
-    height: 50px;
-    padding: 10px;
-    margin: 20px;
-    border-radius: 3px;
-    position: absolute;
-    right: 0px;
-    color: white;
-    top: 0px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 15px;
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out;
-    z-index: 999;
-  }
-</style>
+
+  <style>
+    .alert {
+      min-width: 430px;
+      height: 50px;
+      padding: 10px;
+      margin: 20px;
+      border-radius: 3px;
+      position: absolute;
+      right: 0px;
+      color: white;
+      top: 0px;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 15px;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      z-index: 999;
+    }
+  </style>
 
 
-{% if messages %}
-{% for i in messages %}
-{% if i.tags == 'warning' %}
+  {% if messages %}
+  {% for i in messages %}
+  {% if i.tags == 'warning' %}
 
-<div style="background-color: rgba(255, 255, 0, 0.777);" class="alert" id="alert">
-{{ i }}&nbsp;&nbsp;<i class="fa-solid fa-triangle-exclamation"></i>
-</div>
+  <div style="background-color: rgba(255, 255, 0, 0.777);" class="alert" id="alert">
+    {{ i }}&nbsp;&nbsp;<i class="fa-solid fa-triangle-exclamation"></i>
+  </div>
 
-{% elif i.tags == 'error' %}
-<div style="background-color: rgba(255, 0, 0, 0.795);" class="alert" id="alert">
-{{ i }}&nbsp;&nbsp; <i class="fa-solid fa-bomb"></i>
-</div>
-
-
-
-{% elif i.tags == 'info' %}
-<div style="background-color: rgba(9, 32, 236, 0.768);" class="alert" id="alert">
-{{ i }}&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i>
-</div>
+  {% elif i.tags == 'error' %}
+  <div style="background-color: rgba(255, 0, 0, 0.795);" class="alert" id="alert">
+    {{ i }}&nbsp;&nbsp; <i class="fa-solid fa-bomb"></i>
+  </div>
 
 
 
-{% else %}
-<div style="background-color: rgba(9, 236, 9, 0.768);" class="alert" id="alert">
-{{ i }}&nbsp;&nbsp;<i class="fa-regular fa-circle-check"></i>
-</div>
+  {% elif i.tags == 'info' %}
+  <div style="background-color: rgba(9, 32, 236, 0.768);" class="alert" id="alert">
+    {{ i }}&nbsp;&nbsp;<i class="fa-solid fa-circle-info"></i>
+  </div>
 
 
-{% endif %}
-{% endfor %}
-{% endif %}
 
-<script>
-// Function to hide the alert after 3 seconds
-function hideAlert() {
-    const alertDiv = document.getElementById('alert');
-    setTimeout(() => {
+  {% else %}
+  <div style="background-color: rgba(9, 236, 9, 0.768);" class="alert" id="alert">
+    {{ i }}&nbsp;&nbsp;<i class="fa-regular fa-circle-check"></i>
+  </div>
+
+
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  <script>
+    // Function to hide the alert after 3 seconds
+    function hideAlert() {
+      const alertDiv = document.getElementById('alert');
+      setTimeout(() => {
         alertDiv.style.opacity = '0';
-    }, 3000);
-    setTimeout(() => {
-              alertDiv.style.display = 'none';
-          }, 3000);
-}
+      }, 3000);
+      setTimeout(() => {
+        alertDiv.style.display = 'none';
+      }, 3000);
+    }
 
-// Call the function to hide the alert
-hideAlert();
-</script>
+    // Call the function to hide the alert
+    hideAlert();
+  </script>
 
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      setInterval(function () {
+        $('#content').load(window.location.href + ' #content');
+      }, 10000); // Refreshes the content every 30 seconds
+    });
+  </script>
 
 </body>
+
 </html>
