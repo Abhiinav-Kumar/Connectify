@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from ChatApp.models import Room,Message,ChatModelPvt,User_details
+from ChatApp.models import Room,Message,ChatModelPvt,User_details,NotificationDB
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -73,12 +73,6 @@ def logout_view(request):
     logout(request)
     messages.success(request,"You have been successfully logged out")
     return redirect(Home_page)
-
-
-# Forgot password 
-
-# def forgot_password(request):
-#     return render(request,"registration/password_reset_form.html")
 
 
 # room message view
@@ -160,8 +154,18 @@ def Chat_Page(request,*args,**kwargs):
     except User_details.DoesNotExist:
         userdata = User_details.objects.get(user_name='default')
         users_data =[]
+
+    # notifications
+    notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
     
-    return render(request,"one_to_one/Chat.html", {'userdata':userdata,'users_data':users_data,'loginedUser':loginedUser} )
+
+    context = {'userdata':userdata,
+               'users_data':users_data,
+               'loginedUser':loginedUser,
+               'notify':notify
+               }
+
+    return render(request,"one_to_one/Chat.html",context )
 
 
 
@@ -207,15 +211,22 @@ def One_message(request,username,userid):
 
     message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
 
+    # notification view 
+    notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
+    NotificationDB.objects.filter(roomname=thread_name,receiver=request.user.id).update(is_read=True)
+
     context ={
         'users':users,
         'frnd':user_obj,
         'messages_data': message_objs,
         'userpro':userpro,
         'userdata':userdata,
-        'users_data':users_data
+        'users_data':users_data,
+        'notify':notify
 
     }
+
+    
 
     return render(request,"one_to_one/One_to_one_message.html",context)
 

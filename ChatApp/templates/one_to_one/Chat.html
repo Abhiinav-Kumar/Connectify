@@ -241,6 +241,7 @@
           <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"></h3>
 
           <!-- users div  -->
+
           <div  class="Usersmaindiv min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
             <div style=" position: static;">
               <p style="margin-bottom: 18px;" class="text-sm text-gray-600 dark:text-gray-400">
@@ -275,7 +276,12 @@
                   
                   
                     <p  class=" font-semibold text-gray-700 dark:text-gray-200">
-                      {{data.user.username}}
+                      {{data.user.username}} 
+                      {% for notification in notify %}
+                      {% if notification.sender.id == data.user.id %}
+                      &nbsp; <i style="color: rgb(13, 255, 0); font-size: 7px;" class="fa-solid fa-circle"></i>
+                      {% endif %}
+                    {% endfor %}
                     </p>
                 
                 </div>
@@ -289,6 +295,7 @@
             
              
           </div>
+
           {% block content %}
           <!-- users div  -->
 

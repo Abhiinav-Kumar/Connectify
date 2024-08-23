@@ -77,6 +77,9 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
                 self.channel_name,
             )
 
+            # Mark notifications as read when the user connects
+            # await self.mark_notifications_as_read(my_id, other_user_id, self.room_name)
+
             await self.accept()
 
             
@@ -89,6 +92,8 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
             # print(f"data after extract receive function :",message,user_id,receiver_id)
             
             await self.save_message(user_id,self.room_group_name,message,receiver_id)
+            await self.save_notification(user_id, receiver_id, self.room_group_name)
+
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -120,8 +125,32 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
         def save_message(self,sender_id,thread_name,message,receiver_id):
             chat_obj = ChatModelPvt.objects.create(
                 sender=sender_id,
-            
                 message=message,
                 thread_name=thread_name)
+
             return chat_obj
+        
+        @database_sync_to_async
+        def save_notification(self, sender_id, receiver_id, thread_name):
+            NotificationDB.objects.create(
+                sender_id=sender_id,
+                receiver_id=receiver_id,
+                roomname=thread_name,
+                is_read=False  # Initially, the notification is unread
+            )
+
+        # @database_sync_to_async
+        # def mark_notifications_as_read(self, sender_id, receiver_id, thread_name):
+        #     NotificationDB.objects.filter(
+        #         sender_id=sender_id,
+        #         receiver_id=receiver_id,
+        #         roomname=thread_name,
+        #         is_read=False).update(is_read=True)
+                            
+
+
+
+           
+
+       
           

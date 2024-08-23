@@ -52,6 +52,14 @@ class User_details(models.Model):
 
     # def get_user(self):
     #     return User.objects.get(username=self.user_name)
+
+
+class NotificationDB(models.Model):
+    sender = models.ForeignKey(to=User,on_delete=models.CASCADE,related_name='sender_notification',null=True,blank=True)
+    receiver = models.ForeignKey(to=User,on_delete=models.CASCADE,related_name='receiver_notification',null=True,blank=True)
+    roomname = models.CharField(max_length=100,null=True,blank=True)
+    is_read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now=True)   
     
 
 
