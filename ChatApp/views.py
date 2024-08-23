@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.forms import PasswordChangeForm
+from django.db.models import Count
 # Create your views here.
 
 def Home_page(request):
@@ -156,9 +157,13 @@ def Chat_Page(request,*args,**kwargs):
         users_data =[]
 
     # notifications
-    notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
-    
+    # notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
+    unread_notifications = NotificationDB.objects.filter(is_read=False).values('sender').annotate(unread_count=Count('id'))
 
+    notify = {item['sender']: item['unread_count'] for item in unread_notifications}
+    print("unread_notifications",notify)
+    
+        
     context = {'userdata':userdata,
                'users_data':users_data,
                'loginedUser':loginedUser,
@@ -212,7 +217,10 @@ def One_message(request,username,userid):
     message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
 
     # notification view 
-    notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
+    # notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
+    unread_notifications = NotificationDB.objects.filter(is_read=False).values('sender').annotate(unread_count=Count('id'))
+    notify = {item['sender']: item['unread_count'] for item in unread_notifications}
+    print("unread_notifications",notify)
     NotificationDB.objects.filter(roomname=thread_name,receiver=request.user.id).update(is_read=True)
 
     context ={
