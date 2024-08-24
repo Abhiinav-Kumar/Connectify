@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: johnsnow@gmail.com
+Date: Sat, 24 Aug 2024 05:28:23 -0000
+Message-ID: <172447730334.7700.3559008847372785912@Lenovo>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/password_reset_confirm/MzE/cc9ftb-2ea4937a7c9d06fddc733a3710d6a35e/
+
+Your username, in case you’ve forgotten: Johnsnow
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------

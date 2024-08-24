@@ -161,7 +161,7 @@ def Chat_Page(request,*args,**kwargs):
     unread_notifications = NotificationDB.objects.filter(receiver=current_user_id,is_read=False).values('sender').annotate(unread_count=Count('id'))
 
     notify = {item['sender']: item['unread_count'] for item in unread_notifications}
-    print("unread_notifications",notify)
+    # print("unread_notifications",notify)
     
         
     context = {'userdata':userdata,
@@ -209,10 +209,10 @@ def One_message(request,username,userid):
     # Determine the thread_name based on user IDs to fetch messages
     if request.user.id > user_obj.id:
         thread_name = f'chat_{request.user.id}-{user_obj.id}'
-        print('if thread_name :',thread_name)
+        # print('if thread_name :',thread_name)
     else:
         thread_name = f'chat_{user_obj.id}-{request.user.id}'
-        print('Else thread_name :',thread_name)
+        # print('Else thread_name :',thread_name)
 
     message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
 
@@ -220,7 +220,7 @@ def One_message(request,username,userid):
     # notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
     unread_notifications = NotificationDB.objects.filter(receiver=current_user_id,is_read=False).values('sender').annotate(unread_count=Count('id'))
     notify = {item['sender']: item['unread_count'] for item in unread_notifications}
-    print("unread_notifications",notify)
+    # print("unread_notifications",notify)
     NotificationDB.objects.filter(roomname=thread_name,receiver=request.user.id).update(is_read=True)
 
     context ={

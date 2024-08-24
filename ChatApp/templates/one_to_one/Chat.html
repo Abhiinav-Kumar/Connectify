@@ -241,7 +241,7 @@
 
           <div id="content">
             <!-- users div  -->
-            <div class="Usersmaindiv min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+            <div  class="Usersmaindiv min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
               <div style=" position: static;">
                 <p style="margin-bottom: 18px;" class="text-sm text-gray-600 dark:text-gray-400">
                   Peoples are in Connectify
@@ -261,10 +261,10 @@
             </div> -->
               </div>
 
-              <div class="Usersdiv">
+              <div id="userdiv" class="Usersdiv">
                 {% for data in users_data %}
                 <a href="{% url 'One_message' username=data.user.username userid=data.user.id %}">
-                  <div  class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
+                  <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
                     <div class="relative  w-8 h-8 mr-3 rounded-full md:block">
 
                       <img class="object-cover w-full h-full rounded-full" src="{{data.user_img.profile_image.url}}"
@@ -279,25 +279,19 @@
                       </p>
                     </div>
                     {% for user_id, unread_count in notify.items %}
-                    {% if user_id == data.user.id %} 
-                        <div style="background-color: rgb(0, 255, 47); margin-left: auto; float: right;
+                    {% if user_id == data.user.id %}
+                    <div
+                      style="background-color: rgb(0, 255, 47); margin-left: auto; float: right;
                         border-radius: 50%; width: 15px; height: 15px; text-align: center; padding-bottom: 5px; font-size: 12px;line-height: 15px;">
-                          
-                        {{ unread_count }}
-                        
 
-                        </div>
-                        {% endif %}
-                        {% endfor %}
+                      {{ unread_count }}
 
-<!-- 
-                        {% for user_id, unread_count in notify.items %}
-                        {% if user_id == data.user.id %} 
-                        <span style=" margin-left: 8px;  color: white; background-color: rgb(0, 255, 0); text-align: center; border-radius: 50%;">{{ unread_count }}</span>
-                        {% endif %}
-                        {% endfor %} -->
 
-                    
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+
                   </div>
                 </a>
                 {% endfor %}
@@ -663,7 +657,7 @@
     $(document).ready(function () {
       setInterval(function () {
         $('#content').load(window.location.href + ' #content');
-      }, 5000); // Refreshes the content every 30 seconds
+      }, 4000); // Refreshes the content every 30 seconds
     });
   </script>
 
