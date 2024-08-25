@@ -217,7 +217,6 @@ def One_message(request,username,userid):
     message_objs =ChatModelPvt.objects.filter(thread_name=thread_name)
 
     # notification view 
-    # notify = NotificationDB.objects.filter(receiver=current_user_id,is_read=False)
     unread_notifications = NotificationDB.objects.filter(receiver=current_user_id,is_read=False).values('sender').annotate(unread_count=Count('id'))
     notify = {item['sender']: item['unread_count'] for item in unread_notifications}
     # print("unread_notifications",notify)
@@ -268,7 +267,7 @@ def Profile_update(request,userid):
         us = request.POST.get('username')
         em = request.POST.get('email')
         BIO = request.POST.get('bio')
-        # passw = request.POST.get('password')        
+                
         US = us.strip()
         EM = em.strip()
         existing_user = User.objects.filter(Q(username=US) | Q(email=EM)).exclude(id=userid).exists()

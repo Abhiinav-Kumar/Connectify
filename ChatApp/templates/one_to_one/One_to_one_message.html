@@ -312,16 +312,6 @@ hiddenContent.addEventListener('mouseleave', () => {
 });
 </script>
 
-<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<script>
-    $(document).ready(function(){
-        $("#x-cross").click(function(){
-            $("#close-chat-tab").hide()
-        })
-    })
-</script> -->
-
 {{user.id|json_script:"json-id"}}
 {{request.user.id|json_script:"json-message-id"}}
 {{frnd.id|json_script:"json-id-receiver"}}
