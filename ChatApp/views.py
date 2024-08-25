@@ -233,8 +233,6 @@ def One_message(request,username,userid):
 
     }
 
-    
-
     return render(request,"one_to_one/One_to_one_message.html",context)
 
 

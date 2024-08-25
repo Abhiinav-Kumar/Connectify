@@ -139,13 +139,7 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
                 is_read=False  # Initially, the notification is unread
             )
 
-        # @database_sync_to_async
-        # def mark_notifications_as_read(self, sender_id, receiver_id, thread_name):
-        #     NotificationDB.objects.filter(
-        #         sender_id=sender_id,
-        #         receiver_id=receiver_id,
-        #         roomname=thread_name,
-        #         is_read=False).update(is_read=True)
+        
                             
 
 
