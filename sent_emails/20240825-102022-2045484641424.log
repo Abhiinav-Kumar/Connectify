@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: loki@gmail.com
+Date: Sun, 25 Aug 2024 04:50:22 -0000
+Message-ID: <172456142298.4124.1696480325253394629@Lenovo>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/password_reset_confirm/NDA/ccb8py-9b7516d240eac5a6c175b8011fb82d3d/
+
+Your username, in case you’ve forgotten: Loki
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------

@@ -49,7 +49,7 @@
               src="{% static 'webstyle/logo/Connectify_Favivon.png' %}">
           </a>
 
-          <li class="flex">
+          <!-- <li class="flex">
             <button class="rounded-md focus:outline-none focus:shadow-outline-purple" @click="toggleTheme"
               aria-label="Toggle color mode">
               <template x-if="!dark">
@@ -65,7 +65,7 @@
                 </svg>
               </template>
             </button>
-          </li>
+          </li> -->
         </div>
       </header>
       <!--        end navbar-->
@@ -96,19 +96,20 @@
         <!-- </div> -->
       </main>
       <!--        end main page -->
+      {% endblock %}
 
     </div>
   </div>
 
-  {% endblock %}
   <!--  footer-->
   <section class="">
+    
     <!-- Footer -->
     <footer class="text-center text-white" style="background-color: #7e3af2">
       <!-- Copyright -->
       <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
         © 2024 Connectify:
-        <a class="text-white" href="#">Connectify.com</a>
+        <a class="text-white" href="{% url 'Home_page' %}">Connectify.com</a>
       </div>
       <!-- Copyright -->
     </footer>
@@ -116,8 +117,64 @@
   </section>
 
 
+
   
   <style>
+
+form p input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border-color: #e2e8f0;
+    border-width: 1px;
+    border-radius: .25rem;
+    height: 40px;
+    /* padding: .5rem .75rem; */
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 5px;
+    margin-bottom: 10px;
+    width: 300px;
+  }
+
+  form p input:focus {
+    --border-opacity: 1;
+    border-color: #ac94fa;
+    border-color: rgba(172, 148, 250, var(--border-opacity));
+
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, .5);
+    box-shadow: 0 0 0 3px rgba(202, 191, 253, .45);
+  }
+
+  form p label{
+    /* color: red; */
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+  }
+
+  form p input.primary {
+    font-weight: 500;
+    /* margin-top: 10px; */
+    margin-bottom: 20px;
+    height: 35px;
+    color: white;
+    background-color:rgb(126,58,242);
+
+  }
+
+
+  form ul li{
+    font-size: 12px;  
+  }
+
+  p label{
+    margin-top: 5px;
+  }
+
+
     .alert {
       min-width: 430px;
       height: 50px;
