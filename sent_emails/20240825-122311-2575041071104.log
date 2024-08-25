@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: robot@gmail.com
+Date: Sun, 25 Aug 2024 06:53:11 -0000
+Message-ID: <172456879181.21892.10903042231459546073@Lenovo>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/password_reset_confirm/NDI/ccbeen-39fc045d7e50934f712c79a7cac6a764/
+
+Your username, in case you’ve forgotten: Robot
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
