@@ -55,6 +55,9 @@
                     <div class="row message-body">
                         <div class="message-container receiver">
                             <div class="message-text">
+                                {% if message.image %}
+                        <img src="{{ message.image.url }}" alt="Image" style="max-width: 300px; max-height: 300px;" />
+                    {% endif %}
                                 {{message.message}}
                             </div>
                             <span class="message-time pull-right">
@@ -66,7 +69,10 @@
                     <div class="row message-body">
                         <div class="message-container sender">
                             <div class="message-text">
-                                {{message.message}} 
+                                {% if message.image %}
+                        <img src="{{ message.image.url }}" alt="Image" style="max-width: 300px; max-height: 300px;" />
+                    {% endif %} 
+                                {{message.message}}
                             </div>
                             <span class="message-time pull-right">
                                 {{message.timestamp|time:'H:i'}}
@@ -82,10 +88,15 @@
             placeholder="Write message..."
             type="text"
             id="message_input"></textarea>
+
+            <input type="file" id="file_input" accept=".jpg, .jpeg, .png, .gif" style="display: none; visibility: hidden;">
+
+            <label class="send-btn" style="width: 40px; margin-right: 1px; border-radius: 8px; text-align: center; padding-top: 10px; cursor: pointer; color: white;" for="file_input"><i class="fa-regular fa-image " ></i></label>
+
             <button class="send-btn px-4 py-2 text-sm font-medium leading-5
              text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             id="chat-message-submit">
-                Send <i class="fa-regular fa-paper-plane"></i>
+                Send <i class="fa-regular fa-paper-plane "></i>
             </button>
         </div>
     </div>
@@ -312,6 +323,7 @@ hiddenContent.addEventListener('mouseleave', () => {
 });
 </script>
 
+
 {{user.id|json_script:"json-id"}}
 {{request.user.id|json_script:"json-message-id"}}
 {{frnd.id|json_script:"json-id-receiver"}}
@@ -357,22 +369,26 @@ hiddenContent.addEventListener('mouseleave', () => {
         const minutes = formatTime(now.getMinutes());
         const timestamp = `${hours}:${minutes}`;
 
+        let messageHTML = '';
 
-        console.log('finding user:', data.userId);
-        console.log('message:', data.message);
-        console.log("another user:", messageUserId);
+        console.log('Image URL:', data.image_url);
 
-        console.log("time:", now);
-        console.log("hours:", hours);
-        console.log("minutes:", minutes);
+        if (data.image_url) {
+            messageHTML = `<img src="${data.image_url}" alt="Image" style="max-width: 300px; max-height: 300px;"/>`;
+            scrollToBottom()
 
+        } else {
+            messageHTML = `${data.message}`;
+
+
+        }
 
         if (data.userId === messageUserId) {
             document.querySelector('#chat-body').innerHTML += `
             <div class="row message-body">
                 <div class="message-container sender">
                     <div class="message-text">
-                        ${data.message} 
+                       ${messageHTML}
                     </div>
                     <span class="message-time pull-right">
                         ${timestamp}
@@ -384,7 +400,7 @@ hiddenContent.addEventListener('mouseleave', () => {
             <div class="row message-body">
                 <div class="message-container receiver">
                     <div class="message-text">
-                        ${data.message} 
+                        ${messageHTML}
                     </div>
                     <span class="message-time pull-right">
                         ${timestamp}
@@ -392,7 +408,9 @@ hiddenContent.addEventListener('mouseleave', () => {
                 </div>
             </div>`;
         }
+
         scrollToBottom()
+        
     };
 
      // Function to scroll to the bottom of the chat container
@@ -406,21 +424,59 @@ hiddenContent.addEventListener('mouseleave', () => {
         scrollToBottom();
     });
 
+
+
+
 document.querySelector('#chat-message-submit').onclick = function(e) {
     const message_input = document.querySelector('#message_input');
+    const file_input = document.querySelector('#file_input');
+
     const message = message_input.value;
+    const file = file_input.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = function() {
+        const imageData = reader.result;
+
     console.log('Sending :',message);
     console.log('sending user ID:',messageUserId)
+    console.log('Sending image data...........:', imageData);
 
     socket.send(JSON.stringify({
         'message': message,
         'userId': messageUserId,
-        'receiverId':receiver
+        'receiverId':receiver,
+        'image': imageData || null
+
     }));
 
     message_input.value = '';
+    file_input.value = ''; 
     scrollToBottom()
 };
+
+reader.onerror = function(error) {
+        console.error('Error reading file:', error);
+        // Handle error if necessary
+    };
+
+if (file) {
+        reader.readAsDataURL(file); // Read the image file as a base64 encoded string
+    } else {
+        reader.onloadend(); // Trigger the onloadend event if no file is selected
+    }
+
+    console.log('Selected file:', file);
+if (file) {
+    console.log('Reading file:', file.name);
+} else {
+    console.log('No file selected.');
+}
+
+};
+
+
+
 </script>
 
 </body>

@@ -32,6 +32,7 @@ class Message(models.Model):
 class ChatModelPvt(models.Model):
     sender = models.IntegerField( default=None)
     message = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to='chat_images/', null=True, blank=True)
     thread_name = models.CharField(null=True, blank=True, max_length=50)
     timestamp = models.DateTimeField(auto_now=True)
 

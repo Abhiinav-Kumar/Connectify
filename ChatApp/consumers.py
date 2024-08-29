@@ -5,6 +5,12 @@ from ChatApp.models import *
 from django.contrib.auth.models import User
 from asgiref.sync import async_to_sync
 
+import base64
+from django.core.files.base import ContentFile
+from django.conf import settings
+import os
+import uuid
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -89,9 +95,16 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
             message = data['message']
             user_id = data['userId']
             receiver_id = data['receiverId']
-            # print(f"data after extract receive function :",message,user_id,receiver_id)
-            
-            await self.save_message(user_id,self.room_group_name,message,receiver_id)
+            image_data = data.get('image', None)
+
+            if image_data:
+                image_file = await self.save_image(image_data)
+                message = ''
+                await self.save_message(user_id, self.room_group_name, message, receiver_id, image_file=image_file)
+
+            else:
+                await self.save_message(user_id,self.room_group_name,message,receiver_id)
+
             await self.save_notification(user_id, receiver_id, self.room_group_name)
 
             await self.channel_layer.group_send(
@@ -99,19 +112,23 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
                 {
                     'type':'chat_message',
                     'message':message,
-                    'userId':user_id
+                    'userId':user_id,
+                    'image_url': image_data if image_data else None
                 }
             ) 
         
         async def chat_message(self,event):
             message = event['message']
             user_id = event['userId']
+            image_url = event.get('image_url', None)
 
             # print("Chat message function :",message, user_id)
 
+
             await self.send(text_data=json.dumps({
                 'message':message,
-                'userId':user_id
+                'userId':user_id,
+                'image_url': image_url
             }))
 
 
@@ -122,11 +139,12 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
         )
             
         @database_sync_to_async
-        def save_message(self,sender_id,thread_name,message,receiver_id):
+        def save_message(self,sender_id,thread_name,message,receiver_id,image_file=None):
             chat_obj = ChatModelPvt.objects.create(
                 sender=sender_id,
                 message=message,
-                thread_name=thread_name)
+                thread_name=thread_name,
+                image=image_file)
 
             return chat_obj
         
@@ -139,6 +157,13 @@ class PersonalChatConsumer(AsyncWebsocketConsumer):
                 is_read=False  # Initially, the notification is unread
             )
 
+        @database_sync_to_async
+        def save_image(self, image_data):
+            format, imgstr = image_data.split(';base64,')
+            ext = format.split('/')[-1]
+            file_name = f'{uuid.uuid4()}.{ext}'
+            file_data = ContentFile(base64.b64decode(imgstr), name=file_name)
+            return file_data
         
                             
 
