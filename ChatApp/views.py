@@ -101,8 +101,11 @@ def Public_Room_page(request):
             new_room.save()
 
         return redirect('MessageView',room_name=room,username=username)
+    
 
+    
     return render(request,"Public_Room.html",{'userdata':userdata})
+
 
 @login_required
 def MessageView(request,room_name,username):
@@ -125,6 +128,7 @@ def MessageView(request,room_name,username):
     }
     return render(request,"Message.html",context)
 #end room message view
+
 
 
 
@@ -171,7 +175,6 @@ def Chat_Page(request,*args,**kwargs):
                }
 
     return render(request,"one_to_one/Chat.html",context )
-
 
 
 #one to one message view

@@ -9,8 +9,6 @@
 </head>
 <body>
 
-        
-
 
     {% block content %}
     <div class="main-chat-container" id="close-chat-tab">
@@ -395,6 +393,8 @@ hiddenContent.addEventListener('mouseleave', () => {
                     </span>
                 </div>
             </div>`;
+            scrollToBottom()
+
         } else {
             document.querySelector('#chat-body').innerHTML += `
             <div class="row message-body">
