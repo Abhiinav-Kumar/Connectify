@@ -5,6 +5,9 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('',views.Home_page,name='Home_page'),
 
+    #about us
+    path('about_us_page',views.about_us_page,name='about_us_page'),
+
     # one 2 one
     path('Chat_Page/',views.Chat_Page,name='Chat_Page'),
     path('<str:username>/<int:userid>',views.One_message,name='One_message'),

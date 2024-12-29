@@ -63,9 +63,8 @@
         <section>
           <ul class="mt-6">
             <li class="relative px-6 py-3">
-              <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
-                aria-hidden="true"></span>
-              <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
+              
+              <a class="inline-flex items-center w-full text-sm font-semibold  transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                 href="{% url 'Chat_Page'  %}">
 
                 <i class="fa-regular fa-comment"></i>
@@ -91,11 +90,16 @@
             </li>
 
             <li class="relative px-6 py-3">
-              <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                aria-hidden="true"></span>
+                <a class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                 href="{% url 'about_us_page' %}">
                 <i class="fa-solid fa-circle-info"></i>
                 <span class="ml-4">About Us</span>
               </a>
+
+              
+             
             </li>
 
           </ul>
@@ -229,54 +233,7 @@
 
           <h3 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"></h3>
 
-          <div id="content">
-            <!-- users div  -->
-            <div  class="Usersmaindiv min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-              <div style=" position: static;">
-                <p style="margin-bottom: 18px;" class="text-sm text-gray-600 dark:text-gray-400">
-                  Peoples are in Connectify
-                </p>
-
-                
-              </div>
-
-              <div id="userdiv" class="Usersdiv">
-                {% for data in users_data %}
-                <a href="{% url 'One_message' username=data.user.username userid=data.user.id %}">
-                  <div class="users flex items-center p-2 bg-white rounded-lg shadow-xs dark:bg-gray-800 users_tab ">
-                    <div class="relative  w-8 h-8 mr-3 rounded-full md:block">
-
-                      <img class="object-cover w-full h-full rounded-full" src="{{data.user_img.profile_image.url}}"
-                        alt="" loading="lazy">
-                      <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                    </div>
-                    <div>
-
-
-                      <p class=" font-semibold text-gray-700 dark:text-gray-200">
-                        {{data.user.username}}
-                      </p>
-                    </div>
-                    {% for user_id, unread_count in notify.items %}
-                    {% if user_id == data.user.id %}
-                    <div
-                      style="background-color: rgb(0, 255, 47); margin-left: auto; float: right;
-                        border-radius: 50%; width: 15px; height: 15px; text-align: center; padding-bottom: 5px; font-size: 12px;line-height: 15px;">
-
-                      {{ unread_count }}
-
-
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-
-
-                  </div>
-                </a>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
+        
           {% block content %}
           <!-- users div  -->
 
@@ -284,17 +241,27 @@
 
           <!-- welcome div  -->
 
-          <div class=" bg-white rounded-lg shadow-xs dark:bg-gray-800 welcomediv">
+          <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+            <h4 class="mb-4 font-semibold   dark:text-gray-200">
+              About Us
+            </h4>
+            <p class="text-gray-600 dark:text-gray-400">
+                Welcome to Connectify, your trusted partner in seamless communication and collaboration. In an era where staying connected is essential, we aim to bridge the gaps between people, teams, and ideas with a platform that redefines how you communicate. Whether it's fostering personal connections or enhancing professional productivity, Connectify delivers intuitive, secure, and feature-rich solutions tailored to your needs. <br><br>
 
-            {% if loginedUser %}
-            <h1 style="padding-top: 100px;" class="Intro-title font-semibold">Hello, {{loginedUser.username}}</h1>
-            <h4 class="quotes dark:text-gray-200">'Building Bridges through Conversation.'</h4>
-
-            {% endif %}
-
-
+                Our platform is designed to offer more than just messaging. With capabilities like private chats, group discussions, file sharing, and multimedia exchange, Connectify ensures that every interaction is meaningful and efficient. Built on state-of-the-art WebSocket technology, our app provides real-time messaging with lightning-fast responsiveness, guaranteeing a smooth and uninterrupted experience.<br><br>
+                
+                At Connectify, security and reliability are at the heart of everything we do. We understand the importance of trust in digital communication and have implemented robust measures to protect your data and ensure privacy. Our commitment to excellence drives us to innovate continually, adapting to the ever-changing demands of the digital landscape.<br><br>
+                
+                We envision a world where technology empowers people to collaborate effortlessly and connect genuinely. By combining cutting-edge features with user-friendly design, Connectify helps you focus on what truly matters—your relationships and goals.<br><br>
+                
+                We value your feedback and invite you to share your thoughts, suggestions, or questions. Connect with us at <a href="https://mail.google.com/mail/?view=cm&fs=1&to=connectifychat@gmail.com" target="_blank" 
+                style="color:#7e3af2;
+                font-weight: bold;
+                text-decoration: none;">connectifychat@gmail.com</a>, and let’s work together to make Connectify even better.<br><br>
+                
+                Join us at Connectify, where connections come to life, and communication has no boundaries. Together, let’s transform the way the world connects.
+            </p>
           </div>
-        </div>
 
         <!-- welcome div  -->
 

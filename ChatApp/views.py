@@ -21,6 +21,9 @@ def Sign_Up(request):
 def login_page(req):
     return render(req,'logins\Signin.html')
 
+#About us page
+def about_us_page(request):
+    return render(request,'about/about_us.html')
 
 #registration view
 def User_signup(request):
