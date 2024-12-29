@@ -12,14 +12,14 @@ from django.db.models import Count
 # Create your views here.
 
 def Home_page(request):
-    return render(request,"Home.html")
+    return render(request,"logins\Home.html")
 
 #login sign up pages
 def Sign_Up(request):
-    return render(request,"SignUp.html")
+    return render(request,"logins\SignUp.html")
 
 def login_page(req):
-    return render(req,'Signin.html')
+    return render(req,'logins\Signin.html')
 
 
 #registration view
@@ -104,7 +104,7 @@ def Public_Room_page(request):
     
 
     
-    return render(request,"Public_Room.html",{'userdata':userdata})
+    return render(request,"rooms\Public_Room.html",{'userdata':userdata})
 
 
 @login_required
@@ -126,7 +126,7 @@ def MessageView(request,room_name,username):
         "room_name": room_name,
         'userdata':userdata
     }
-    return render(request,"Message.html",context)
+    return render(request,"rooms\Message.html",context)
 #end room message view
 
 
